@@ -10,7 +10,7 @@ terminoSeriedeFibonacci (5) => 8
 int fibonacci(int fibo)
 {
     int resultado;
-    // Defino casos base 1 y 2 ya que sino no funciona la suma de Fn = F(n-1) + F(n-2)
+    // Defino casos base 1 y 2
     if (fibo == 1)
     {
         resultado = 1;
@@ -29,7 +29,17 @@ int fibonacci(int fibo)
 
 int main()
 {
-    int fibo = 6;
+    int fibo;
+    char c;
+    int scan = scanf("%d%c", &fibo,&c);
+    printf("Ingrese un numero entero: ");
+    while(scan != 2 || c != '\n' || fibo <1){
+        if (scan != 2 || c != '\n'){
+            while (getchar() != '\n');
+        }
+        printf("Error de tipo de datos: ingrese un numero entero: ");
+        scan = scanf("%d%c", &fibo,&c);
+    }
     int resultado = fibonacci(fibo);
     printf("%i\n", resultado);
     return 0;
