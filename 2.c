@@ -31,11 +31,17 @@ int main()
 {
     int a, b;
     char c;
-    printf("Ingrese un numero entero para ser multiplicado: ");
+    printf("Ingrese un numero entero 'a' para ser multiplicado: ");
     while(scanf("%d%c", &a,&c)!= 2 || c != '\n'){
         while (getchar() != '\n');
         printf("Error de tipo de datos: ingrese un numero entero: ");
     }
+    printf("Ingrese un numero entero 'b' para multiplicar: ");
+    while(scanf("%d%c", &b,&c)!= 2 || c != '\n'){
+        while (getchar() != '\n');
+        printf("Error de tipo de datos: ingrese un numero entero: ");
+    }
+    printf("Iniciando recursion...\n");
     int producto = producto_por_suma(a, b);
     printf("resultado = %i\n", producto);
     return 0;
