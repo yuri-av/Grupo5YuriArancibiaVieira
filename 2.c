@@ -16,13 +16,12 @@ int producto_por_suma(int a, int b)
     }
     else if (b > 0)
     {
-        // Caso normal: sumas 'a' y reduces 'b' hacia el cero
+        // Caso normal: sumas 'a' y reducis 'b' hacia el cero
         resultado = a + producto_por_suma(a, b - 1);
     }
     else
     {
         // Caso negativo: sumas '-a' y llevas 'b' hacia el cero (sumándole 1)
-        // Ejemplo: 2 * (-3) es lo mismo que (-2) + (-2) + (-2)
         resultado = -a + producto_por_suma(a, b + 1);
     }
     return resultado;
@@ -30,8 +29,13 @@ int producto_por_suma(int a, int b)
 
 int main()
 {
-    int a = 3;
-    int b = 3;
+    int a, b;
+    char c;
+    printf("Ingrese un numero entero para ser multiplicado: ");
+    while(scanf("%d%c", &a,&c)!= 2 || c != '\n'){
+        while (getchar() != '\n');
+        printf("Error de tipo de datos: ingrese un numero entero: ");
+    }
     int producto = producto_por_suma(a, b);
     printf("resultado = %i\n", producto);
     return 0;
