@@ -23,16 +23,56 @@ void MafiaChina(int n);// PUNTO 7
 void TestMult();
 void TestFibbo();
 void Test();
-
-//MENU
-void Menu();
-void MenuOpciones();
  
 //----------------------------MAIN---------------------------------
 int main(){
-		Test();
-		//DivisionSinOperador(-10,0,3);
-		MenuOpciones();
+
+    //--------FIBONACCI---------
+    int fib;
+    printf("\nIngrese el numero que desea saber en la sucesion de Fibonacci: ");
+    while (scanf("%d", &fib) != 1 || fib < 0) {
+        printf("ERROR: el numero no puede ser menor que 0, vuelva a intentar: ");
+        while (getchar() != '\n');
+    }
+    printf("\nEl numero de Fibonacci N %d es: %d\n", fib, fibonacci(fib));
+    printf("%s", LINE);
+
+    //--------DIVISION---------
+    int Precision, Dividendo, Divisor;
+
+    printf("\nIngrese el Dividendo (positivo): ");
+    while (scanf("%d", &Dividendo) != 1 || Dividendo < 0) {
+        printf("ERROR: ingrese un numero positivo: ");
+        while (getchar() != '\n');
+    }
+
+    printf("\nIngrese el Divisor (positivo, distinto de 0): ");
+    while (scanf("%d", &Divisor) != 1 || Divisor <= 0) {
+        printf("ERROR: el divisor debe ser mayor a 0: ");
+        while (getchar() != '\n');
+    }
+
+    printf("\nIngrese la Precision (1-10): ");
+    while (scanf("%d", &Precision) != 1 || Precision < 1 || Precision > 10) {
+        printf("ERROR: la precision debe estar entre 1 y 10: ");
+        while (getchar() != '\n');
+    }
+
+    DivisionSinOperador(Dividendo, Divisor, Precision);
+    printf("%s", LINE);
+
+    //--------MAFIA CHINA---------
+    int Chinos;
+    printf("\nIngrese el nivel de la reunion de la mafia (positivo): ");
+    while (scanf("%d", &Chinos) != 1 || Chinos < 1) {
+        printf("ERROR: el numero debe ser positivo: ");
+        while (getchar() != '\n');
+    }
+    MafiaChina(Chinos);
+    printf("\n%s", LINE);
+
+    return 0;
+
     }
 //------------------FUNCIONES RECURSIVAS------------------
 
@@ -47,21 +87,18 @@ int Palindromo(char Palabra[],int Inicio, int Final){
 	}
 	
 	
-int MultPorSuma(int Mult, int aMult){
-
-	if(aMult ==0 ){
-		return 0;
-		}
-	return Mult + MultPorSuma(Mult,aMult-1);
-	}
+int MultPorSuma(int Mult, int aMult) {
+    if (aMult == 0) {
+        return 0;
+    }
+    if (aMult < 0) {
+        return -Mult + MultPorSuma(Mult, aMult + 1);
+    }
+    return Mult + MultPorSuma(Mult, aMult - 1);
+}
 	
 int fibonacci(int n) {
     
-    while(n<0){
-		printf("ERROR : el numero que desea averiguar no puede ser menor que 0, vuelva a intentar :");
-		scanf("%d",&n);
-		printf("%s",LINE);
-		}
     if (n==0) {
         return 0;
     }
@@ -108,28 +145,7 @@ void DivDecimal(int Resto,int Div,int Precision){
 	
 float DivisionSinOperador(int Dividendo,int Divisor,int Precision){
 	
-	
-	//VALIDO RANGOS
-	while(Precision >10 || Precision<1){
-			printf("ERROR: La precision de los decimales que ingreso es invalida, esta debe estar entre 1 y 10 : ");
-			scanf("%d",&Precision);
-			printf("%s",LINE);
-		}
-	while(Dividendo < 0 || Divisor <0){
-		printf("ERROR: esta funcion por temas de practicidad no toma valores negativos en sus entradas \n");
-		printf("por favor ingrese un numero positivo para el dividendo : ");
-		scanf("%d",&Dividendo);
-		printf("\npor favor ingrese un numero positivo para el divisor : ");
-		scanf("%d",&Divisor);
-		printf("%s",LINE);
-		}
-	while(Divisor == 0){
-		printf("ERROR: No se puede dividir por 0, ingrese un valor distinto de este : ");
-		scanf("%d",&Divisor);
-		printf("%s",LINE);
-		}
-		
-		// FUNCION DE DIVIDIR
+	// FUNCION DE DIVIDIR
 	int Resultado = DivEntera(Dividendo,Divisor);
 	int Rest = Resto(Dividendo,Divisor);
 	printf("El Resultado de Dividir %d con %d es de %d",Dividendo,Divisor,Resultado);
@@ -172,11 +188,6 @@ int Miles(int i,char pal[]){
 }
 
 void MafiaChina(int n){
-	while(n<0){
-		printf("ERROR: El numero ingresado por parametro es negativo, por favor vuelva a intentarlo con numero Positivo : ");
-		scanf("%d",&n);
-		printf("%s",LINE);
-		}
 	
 	if(n<=0){
 		return ;
@@ -190,45 +201,6 @@ void MafiaChina(int n){
 	
 	}
 
-void Menu(){
-    printf("\n============== BIENVENIDO ===============\n");
-    printf("-------------- OPCIONES ---------------- \n\n 1. Palindromo \n-1. SALIR \n %s",LINE);
-    
-}
-void MenuOpciones(){
-	    Menu();
-    
-    printf("Ingrese la opcion que desee.... ");
-    
-    int dec= 0;
-    scanf("%d",&dec);
-    
-    while (dec != -1)
-    {
-        switch (dec)
-        {
-        case 1 :
-			printf("ingrese la palabra  : ");
-			char Palabra[20];
-			scanf("%s",Palabra);
-            printf("\n %d el resultado de Palindromo es ; 0 = False , 1 = True\n",Palindromo(Palabra,0,strlen(Palabra)-1));
-            break;
-		
-         default:
-            break;
-        }
-        Menu();
-        
-
-        printf("Ingrese la opcion que desee.... ");
-        scanf("%d",&dec);
-
-    }
-     
-    printf("Adioss <3");
-  
-
-}
 // ---------------------------- TESTS-----------------------------
 void TestMult(){
 	printf("Para La funcion MultPorSuma (Multiplicar usando sumas), Realizamos el test unitario : \n");
