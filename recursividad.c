@@ -197,7 +197,7 @@ void MafiaChina(int n){
 	
 	MafiaChina(n-1);
 	
-	printf("')");
+	printf("-')");
 	
 	}
 
