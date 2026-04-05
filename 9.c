@@ -32,16 +32,13 @@ int validacion_entero()
     char c;
 
     printf("Ingrese un valor: ");
-    int scan = scanf("%i", &n);
+    int scan = scanf("%d%c", &n, &c);
 
     while (scan != 2 || c != '\n')
     {
-        if (scan != 2 || c != '\n')
-        {
-            // Limpia el buffer si hay letras o si hay cualquier cantidad que no sea 2 datos retornados por scanf
-            while (getchar() != '\n')
-                ;
-        }
+        // limpiar buffer
+        while (getchar() != '\n');
+
         printf("Error de tipo de datos: ingrese un numero entero: ");
         scan = scanf("%d%c", &n, &c);
     }
