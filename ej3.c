@@ -1,40 +1,75 @@
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
 
-/*Ejercicio 3: Generar un algoritmo recursivo que calcule el k-ésimo número de la serie de Fibonacci.
-Ejemplos:
-terminoSeriedeFibonacci (1) => 1
-terminoSeriedeFibonacci (5) => 8 */
-
-int Fibonacci(int k) {
-    if (k <= 2) {
-        return 1;
+int fibonacci(int k)
+{
+    int resultado;
+    if (k == 1)
+    {
+        resultado = 1;
     }
-    else return Fibonacci(k-1) + Fibonacci(k-2);
+    else if (k == 2)
+    {
+        resultado = 1;
+    }
+    else
+    {
+        resultado = fibonacci(k - 1) + fibonacci(k - 2);
+    }
+    return resultado;
 }
 
-
-int main() {
-    int k, entradaValida = 0;
-    printf("Ingrese un numero: ");
-    while (!entradaValida) {
-
-        if (scanf("%d", &k) != 1) {
-            printf("Error, debe ingresar un numero entero: ");
-            while (getchar() != '\n'); 
-        } 
-        else if (k <= 0) {
-            printf("Error, debe ser un numero mayor a 0: ");
-        } 
-        else {
-            entradaValida = 1; 
+int validacion_entero(int *fibo, int scan, char c)
+{
+    while (scan != 2 || c != '\n' || *fibo < 1)
+    {
+        if (scan != 2 || c != '\n')
+        {
+            while (getchar() != '\n')
+                ;
         }
+        printf("Error de tipo de datos: ingrese un numero entero mayor a 0: ");
+        scan = scanf("%d%c", fibo, &c);
     }
- 
+    return *fibo;
+}
 
-    int resu = Fibonacci(k);
-    printf("%d", resu);
+// Tests unitarios
+void tests()
+{
+    printf("=== Tests Ejercicio 3: Fibonacci ===\n");
+
+    // Test 1
+    int r1 = fibonacci(1);
+    printf("Test 1 - fibonacci(1)  esperado: 1  | resultado: %d | %s\n",
+           r1, r1 == 1 ? "OK" : "FALLO");
+
+    // Test 2
+    int r2 = fibonacci(5);
+    printf("Test 2 - fibonacci(5)  esperado: 5  | resultado: %d | %s\n",
+           r2, r2 == 5 ? "OK" : "FALLO");
+
+    // Test 3
+    int r3 = fibonacci(10);
+    printf("Test 3 - fibonacci(10) esperado: 55 | resultado: %d | %s\n",
+           r3, r3 == 55 ? "OK" : "FALLO");
+
+    printf("\n");
+}
+
+int main()
+{
+    tests();
+
+    int fibo;
+    char c;
+    printf("Ingrese un numero entero: ");
+    int scan = scanf("%d%c", &fibo, &c);
+
+    validacion_entero(&fibo, scan, c);
+
+    int resultado = fibonacci(fibo);
+    printf("fibonacci(%d) = %i\n", fibo, resultado);
     return 0;
-} 
+}

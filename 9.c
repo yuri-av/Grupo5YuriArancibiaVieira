@@ -1,57 +1,91 @@
-/*Escribir una función recursiva que implemente el método que se describe para saber si
-un número es divisible por 7. Se separa la primera cifra de la derecha, se la multiplica
-por 2, y se resta este producto de lo que queda a la izquierda y así sucesivamente,
-hasta que el resultado obtenido sea un número menor a 70. El número original será
-múltiplo de 7 si el resultado da cero o múltiplo de 7. */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 
-bool divisiblePor7(int n)
+bool divisible_por_7(int n)
 {
+    if (n < 0)
+        n = -n;
+
     if (n < 70)
     {
         return (n % 7 == 0);
     }
     else
     {
-        int ult = n % 10;
-
+        int ultima_cifra = n % 10;
         int resto = n / 10;
+        int nuevo = resto - 2 * ultima_cifra;
 
-        int nuevo = resto - 2 * ult;
+        if (nuevo < 0)
+            nuevo = -nuevo;
 
-        return divisiblePor7(nuevo);
+        return divisible_por_7(nuevo);
     }
 }
 
 int validacion_entero()
 {
     int n;
-    char c;
+    char buffer[100];
+    char extra;
 
-    printf("Ingrese un valor: ");
-    int scan = scanf("%d%c", &n, &c);
-
-    while (scan != 2 || c != '\n')
+    while (1)
     {
-        // limpiar buffer
-        while (getchar() != '\n');
+        printf("Ingrese un valor: ");
 
-        printf("Error de tipo de datos: ingrese un numero entero: ");
-        scan = scanf("%d%c", &n, &c);
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL)
+            continue;
+
+        if (buffer[0] == '\n')
+        {
+            printf("Error: No ingreso nada. Por favor, ");
+            continue;
+        }
+
+        int leidos = sscanf(buffer, "%d %c", &n, &extra);
+
+        if (leidos == 1)
+        {
+            return n;
+        }
+        else
+        {
+            printf("Error de tipo de datos: ingrese un numero entero: ");
+        }
     }
+}
 
-    return n;
+void tests()
+{
+    printf("=== Tests Ejercicio 9: Divisible por 7 ===\n");
+
+    // Test 1
+    int r1 = divisible_por_7(49);
+    printf("Test 1 - divisible_por_7(49)   esperado: 1 (true)  | resultado: %d | %s\n",
+           r1, r1 == 1 ? "OK" : "FALLO");
+
+    // Test 2
+    int r2 = divisible_por_7(50);
+    printf("Test 2 - divisible_por_7(50)   esperado: 0 (false) | resultado: %d | %s\n",
+           r2, r2 == 0 ? "OK" : "FALLO");
+
+    // Test 3
+    int r3 = divisible_por_7(-77);
+    printf("Test 3 - divisible_por_7(-77)  esperado: 1 (true)  | resultado: %d | %s\n",
+           r3, r3 == 1 ? "OK" : "FALLO");
+
+    printf("\n");
 }
 
 int main()
 {
+    tests();
 
     int n = validacion_entero();
 
-    bool resultado = divisiblePor7(abs(n));
+    bool resultado = divisible_por_7(n);
     if (resultado == true)
     {
         printf("%i es divisible por 7\n", n);

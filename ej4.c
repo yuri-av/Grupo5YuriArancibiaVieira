@@ -1,74 +1,103 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-
-/*Ejercicio 4: Dados los números enteros m y n, construir una función recursiva que devuelva el cociente de ambos, calculando el mismo mediante restas sucesivas. Se 
-deberá tener en cuenta que en el caso de que la división no sea exacta, se devolverán hasta “n” cifras decimales (si es necesario), donde “n” es un valor entre 1 a 10 a 
-ingresar como precisión de la división.
+/*Dados los números enteros m y n, construir una función recursiva que devuelva el
+cociente de ambos, calculando el mismo mediante restas sucesivas. Se deberá tener
+en cuenta que en el caso de que la división no sea exacta, se devolverán hasta "n"
+cifras decimales (si es necesario).
 Ejemplos:
-division (10,2) => 5 (en este caso “n” podría haber sido cualquier valor, nada cambia el resultado porque la división fue exacta.)
-division (22,3) => 7,33333 (en este caso “n” fue 5)
-division (23,4) => 5,75 (en este caso “n” fue 3, pero como el resultado con 2 decimales fue suficiente no es necesario mostrar el 5,750 (es decir el “0” final no se 
-muestra) */
+division(10, 2) => 5
+division(22, 3) => 7,33333  (precision 5)
+division(23, 4) => 5,75     (precision 3)
+*/
+#include <stdlib.h>
+#include <stdio.h>
 
-int divisionEntera(int m, int n) {
-
-    if (m < n) {
+int division_por_resta(int dividendo, int divisor)
+{
+    if (dividendo < divisor)
+    {
         return 0;
-    } else {
-        return 1 + divisionEntera(m-n, n);
+    }
+    else
+    {
+        return 1 + division_por_resta(dividendo - divisor, divisor);
     }
 }
 
+int resto(int dividendo, int divisor)
+{
+    if (dividendo < divisor)
+    {
+        return dividendo;
+    }
+    return resto(dividendo - divisor, divisor);
+}
 
-void parteDecimal(int resto, int divisor, int precision) {
-
-    if (precision == 0 || resto == 0) {
+void division_decimal(int resto_actual, int divisor, int precision)
+{
+    if (resto_actual == 0 || precision == 0)
+    {
         return;
-    } 
-    
-    resto = resto * 10;
-    int dig = divisionEntera(resto, divisor);
-    printf("%d", dig);
+    }
 
-    int nuevoResto = resto - dig * divisor;
+    int nuevo_dividendo = resto_actual * 10;
+    int digito = division_por_resta(nuevo_dividendo, divisor);
+    printf("%i", digito);
 
-    parteDecimal(nuevoResto, divisor, precision - 1);
+    int proximo_resto = resto(nuevo_dividendo, divisor);
+    division_decimal(proximo_resto, divisor, precision - 1);
 }
 
+void tests()
+{
+    printf("=== Tests Ejercicio 4: Division por resta ===\n");
 
-int main() {
-    int m, n, prec;
+    // Test 1
+    int r1 = division_por_resta(10, 2);
+    printf("Test 1 - division_por_resta(10, 2)  esperado: 5 | resultado: %d | %s\n",
+           r1, r1 == 5 ? "OK" : "FALLO");
 
-    printf("ingrese el dividendo: ");
-    while (scanf("%d", &m) != 1 || m < 0) {
-    printf("Entrada invalida. Ingrese un numero entero positivo: ");
-    while (getchar() != '\n');
-    }
-    
-    printf("Ingrese el divisor: ");
-    while (scanf("%d", &n) != 1 || n <= 0) {
-    printf("Error: El divisor debe ser un numero positivo y distinto de 0: ");
-    while (getchar() != '\n');
-    }
-    
-    printf("Ingrese la cantidad de decimales: ");
-    while (scanf("%d", &prec) != 1 || prec < 0) {
-        printf("Error. La precision debe ser 0 o mas: ");
-        while (getchar() != '\n');
-    }
+    // Test 2
+    int r2 = division_por_resta(22, 3);
+    printf("Test 2 - division_por_resta(22, 3)  esperado: 7 | resultado: %d | %s\n",
+           r2, r2 == 7 ? "OK" : "FALLO");
 
-    int cociente = divisionEntera(m, n);
-    int restoInicial = m - (cociente * n);
-
-    printf("\nResultado: %d", cociente);
-
-    if (restoInicial > 0 && prec > 0) {
-        printf(",");
-        parteDecimal(restoInicial, n, prec);
-    }
+    // Test 3
+    int r3 = resto(22, 3);
+    printf("Test 3 - resto(22, 3)               esperado: 1 | resultado: %d | %s\n",
+           r3, r3 == 1 ? "OK" : "FALLO");
 
     printf("\n");
+}
+
+int main()
+{
+    tests();
+
+    int dividendo, divisor, precision;
+
+    printf("Ingrese el dividendo: ");
+    scanf("%i", &dividendo);
+
+    printf("Ingrese el divisor: ");
+    scanf("%i", &divisor);
+    while (divisor == 0)
+    {
+        printf("Error: no se puede dividir por 0, ingrese de nuevo: ");
+        scanf("%i", &divisor);
+    }
+
+    printf("Digitos de precision: ");
+    scanf("%i", &precision);
+
+    int resultado = division_por_resta(dividendo, divisor);
+    printf("%i", resultado);
+
+    int resto_inicial = resto(dividendo, divisor);
+    if (resto_inicial > 0 && precision > 0)
+    {
+        printf(",");
+        division_decimal(resto_inicial, divisor, precision);
+    }
+    printf("\n");
+
     return 0;
 }

@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 
 #define MAX_ELEMENTOS 100
@@ -7,7 +8,6 @@ void subconjuntos_que_suman_N(int lista_num[], int objetivo)
     static int actual[MAX_ELEMENTOS];
     static int tam_actual = 0;
 
-    // Caso base exitoso: imprimir el subconjunto directamente
     if (objetivo == 0)
     {
         printf("{");
@@ -21,14 +21,11 @@ void subconjuntos_que_suman_N(int lista_num[], int objetivo)
         return;
     }
 
-    // Caso base sin solucion: fin del arreglo (centinela -999)
     if (lista_num[0] == -999)
         return;
 
-    // Rama 1: No incluir el elemento actual
     subconjuntos_que_suman_N(lista_num + 1, objetivo);
 
-    // Rama 2: Si incluir el elemento actual
     actual[tam_actual] = lista_num[0];
     tam_actual++;
     subconjuntos_que_suman_N(lista_num + 1, objetivo - lista_num[0]);
@@ -65,8 +62,39 @@ int leer_entero(const char *mensaje)
     }
 }
 
+void tests()
+{
+    printf("=== Tests Ejercicio 8: Subconjuntos que suman N ===\n");
+
+    // Test 1
+    int c1[] = {10, 3, 1, 7, 4, 2, -999};
+    printf("Test 1 - {10,3,1,7,4,2} que suman 7\n");
+    printf("  esperado: {7} {1,4,2} {3,4}\n");
+    printf("  resultado:\n  ");
+    subconjuntos_que_suman_N(c1, 7);
+
+    // Test 2
+    int c2[] = {10, 3, 1, 7, 4, 2, -999};
+    printf("Test 2 - {10,3,1,7,4,2} que suman 10\n");
+    printf("  esperado: {10} {1,7,2} {3,7} {3,1,4,2}\n");
+    printf("  resultado:\n  ");
+    subconjuntos_que_suman_N(c2, 10);
+
+    // Test 3
+    int c3[] = {1, 2, 3, -999};
+    printf("Test 3 - {1,2,3} que suman 99 (sin solucion)\n");
+    printf("  esperado: (ninguno)\n");
+    printf("  resultado: ");
+    subconjuntos_que_suman_N(c3, 99);
+    printf("(ninguno)\n");
+
+    printf("\n");
+}
+
 int main()
 {
+    tests();
+
     int lista_num[MAX_ELEMENTOS + 1];
     int tamanio, objetivo;
 
@@ -88,7 +116,7 @@ int main()
         sprintf(mensaje, "  Elemento [%d]: ", i + 1);
         lista_num[i] = leer_entero(mensaje);
     }
-    lista_num[tamanio] = -999; // centinela que marca el fin del arreglo
+    lista_num[tamanio] = -999;
 
     objetivo = leer_entero("Ingrese el numero objetivo (N): ");
 
