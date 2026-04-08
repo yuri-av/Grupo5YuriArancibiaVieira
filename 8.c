@@ -1,127 +1,127 @@
-
+#include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#define MAX 100
 
-#define MAX_ELEMENTOS 100
-
-void subconjuntos_que_suman_N(int lista_num[], int objetivo)
+void buscarSubconjuntos(int conjunto[], int tamano, int objetivo, int indiceActual, int subconjuntoActual[], int tamanoSubconjunto, char **output)
 {
-    static int actual[MAX_ELEMENTOS];
-    static int tam_actual = 0;
-
+    // Caso base 1: Se encontró un subconjunto válido
     if (objetivo == 0)
     {
-        printf("{");
-        for (int i = 0; i < tam_actual; i++)
+        char bufferTemporal[256];
+        int desplazados = 0;
+
+        desplazados += sprintf(bufferTemporal + desplazados, "{");
+
+        for (int i = 0; i < tamanoSubconjunto; i++)
         {
-            printf("%d", actual[i]);
-            if (i < tam_actual - 1)
-                printf(", ");
+            desplazados += sprintf(bufferTemporal + desplazados, "%i, ", subconjuntoActual[i]);
         }
-        printf("}\n");
+
+        // --- TRUCO ESTÉTICO ---
+        // Si hay números en el subconjunto, retrocedemos el lápiz 2 espacios
+        // para sobreescribir la última coma y el espacio.
+        if (tamanoSubconjunto > 0)
+        {
+            desplazados -= 2;
+        }
+
+        desplazados += sprintf(bufferTemporal + desplazados, "}\n");
+        strcat(*output, bufferTemporal);
         return;
     }
 
-    if (lista_num[0] == -999)
+    // Caso base 2: Se terminaron los números o el objetivo es negativo
+    if (indiceActual == tamano || objetivo < 0)
+    {
         return;
+    }
 
-    subconjuntos_que_suman_N(lista_num + 1, objetivo);
+    // Camino A: INCLUIR
+    subconjuntoActual[tamanoSubconjunto] = conjunto[indiceActual];
+    buscarSubconjuntos(conjunto, tamano, objetivo - conjunto[indiceActual], indiceActual + 1, subconjuntoActual, tamanoSubconjunto + 1, output);
 
-    actual[tam_actual] = lista_num[0];
-    tam_actual++;
-    subconjuntos_que_suman_N(lista_num + 1, objetivo - lista_num[0]);
-    tam_actual--;
+    // Camino B: EXCLUIR
+    buscarSubconjuntos(conjunto, tamano, objetivo, indiceActual + 1, subconjuntoActual, tamanoSubconjunto, output);
 }
+void subconjuntosQueSumanN(int conjunto[], int tamano, int objetivo, char **output)
+{
+    int subconjuntoActual[MAX];
 
+    *output = malloc(1024 * sizeof(char)); // Reservamos la memoria
+    (*output)[0] = '\0';                   // La inicializamos limpia
+
+    buscarSubconjuntos(conjunto, tamano, objetivo, 0, subconjuntoActual, 0, output);
+}
 int leer_entero(const char *mensaje)
 {
     char buffer[50];
     int valor;
     char extra;
+    bool valido = false;
 
-    while (1)
+    while (valido != true)
     {
         printf("%s", mensaje);
 
+        // 1. Intentar leer la entrada
         if (fgets(buffer, sizeof(buffer), stdin) == NULL || buffer[0] == '\n')
         {
             printf("  Error: no puede ser nulo. Intente de nuevo.\n");
-            continue;
         }
-        if (sscanf(buffer, "%d%c", &valor, &extra) == 2 && extra != '\n')
+        // 2. Validar si hay caracteres extra después del número
+        else if (sscanf(buffer, "%d %c", &valor, &extra) != 1)
         {
             printf("  Error: solo se permiten numeros enteros. Intente de nuevo.\n");
-            continue;
         }
-        if (sscanf(buffer, "%d", &valor) != 1)
+        // 3. Si no entró en los errores anteriores, la entrada es válida
+        else
         {
-            printf("  Error: solo se permiten numeros enteros. Intente de nuevo.\n");
-            continue;
+            printf("Valor valido!\n");
+            valido = true;
         }
-
-        return valor;
     }
-}
-
-void tests()
-{
-    printf("=== Tests Ejercicio 8: Subconjuntos que suman N ===\n");
-
-    // Test 1
-    int c1[] = {10, 3, 1, 7, 4, 2, -999};
-    printf("Test 1 - {10,3,1,7,4,2} que suman 7\n");
-    printf("  esperado: {7} {1,4,2} {3,4}\n");
-    printf("  resultado:\n  ");
-    subconjuntos_que_suman_N(c1, 7);
-
-    // Test 2
-    int c2[] = {10, 3, 1, 7, 4, 2, -999};
-    printf("Test 2 - {10,3,1,7,4,2} que suman 10\n");
-    printf("  esperado: {10} {1,7,2} {3,7} {3,1,4,2}\n");
-    printf("  resultado:\n  ");
-    subconjuntos_que_suman_N(c2, 10);
-
-    // Test 3
-    int c3[] = {1, 2, 3, -999};
-    printf("Test 3 - {1,2,3} que suman 99 (sin solucion)\n");
-    printf("  esperado: (ninguno)\n");
-    printf("  resultado: ");
-    subconjuntos_que_suman_N(c3, 99);
-    printf("(ninguno)\n");
-
-    printf("\n");
+    return valor;
 }
 
 int main()
 {
-    tests();
-
-    int lista_num[MAX_ELEMENTOS + 1];
-    int tamanio, objetivo;
-
     printf("=== Subconjuntos que suman N ===\n\n");
+    char *output;
+    int conjunto[MAX] = {};
+    int tamano = 0;
+    int objetivo = 0;
 
-    while (1)
+    while (tamano <= 0)
     {
-        tamanio = leer_entero("Cuantos elementos tiene el conjunto? ");
-        if (tamanio <= 0)
+        tamano = leer_entero("Definir los elementos del conjunto: ");
+        if (tamano <= 0)
             printf("  Error: debe ser mayor a 0.\n");
-        else
-            break;
     }
 
-    printf("Ingrese los %d elementos (pueden ser negativos):\n", tamanio);
-    for (int i = 0; i < tamanio; i++)
+    while (objetivo <= 0)
     {
-        char mensaje[30];
-        sprintf(mensaje, "  Elemento [%d]: ", i + 1);
-        lista_num[i] = leer_entero(mensaje);
+        objetivo = leer_entero("Definir el objetivo: ");
+        if (objetivo <= 0)
+            printf("  Error: debe ser mayor a 0.\n");
     }
-    lista_num[tamanio] = -999;
 
-    objetivo = leer_entero("Ingrese el numero objetivo (N): ");
+    printf("==== VALORES DE LA LISTA ====\n");
+    for (int i = 0; i < tamano; i++)
+    {
+        bool valido = false;
+        printf("Numero %i\n", i + 1);
+        while (valido != true)
+        {
+            conjunto[i] = leer_entero("Ingresar: ");
+            valido = true;
+        }
+    }
 
-    printf("\nSubconjuntos que suman %d:\n", objetivo);
-    subconjuntos_que_suman_N(lista_num, objetivo);
+    subconjuntosQueSumanN(conjunto, tamano, objetivo, &output);
+    printf("Resultado: %s", output);
+    free(output);
 
     return 0;
 }
