@@ -22,7 +22,7 @@ Curso de Estructuras de Datos y Algoritmos I, Universidad Nacional de Lujan
 
 ## Alumnos:
 
-###### Fiorence Carpo 208230 carpo.n.fiorence@gmail.com
+##### Fiorence Carpo 208230 carpo.n.fiorence@gmail.com
 
 ##### Yuri Arancibia Vieira 208213 arancibiavieirayuri@gmail.com
 
