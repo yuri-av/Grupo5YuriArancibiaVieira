@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 void cargar_listas(Lista lista, int cantidad, int opcion);
-void comparacion(Lista l1, Lista l2, int *c_mayores1, int *c_mayores2);
+void CompararListas(Lista l1, Lista L2);
 
 int main()
 {

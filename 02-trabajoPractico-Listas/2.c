@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <time.h>
 
-void cargar_listas(Lista lista, int cantidad, int opcion);
+int validacion_ingreso();
+Lista rellenarLista(int elementos);
 Lista en_l1_no_en_l2(Lista l1, Lista l2);
 Lista coincidencias(Lista l1, Lista l2);
 float promedio(Lista l1, int cantidad);
@@ -13,14 +14,12 @@ int main()
 {
     srand(time(NULL));
     int cantidad = 0;
-    int opcion = 0;
     int min = 0;
     int pos_min = 0;
     char car;
 
     // Creamos las dos listas
-    Lista l1 = l_crear();
-    Lista l2 = l_crear();
+    Lista l1, l2;
 
     // Tamaño de las listas
     printf("Ingrese la cantidad de elementos a agregar a las listas: ");
@@ -34,23 +33,11 @@ int main()
         }
     }
 
-    // Modalidad de carga de las listas
-    printf("Desea cargar las listas con elementos aleatorios? (1 para aleatorio, 0 para manual): ");
-
-    // Validacion de dato
-    while (scanf("%d%c", &opcion, &car) != 2 || car != '\n' || (opcion != 0 && opcion != 1))
-    {
-        printf("Opcion invalida. Ingrese 1 para aleatorio o 0 para manual: ");
-        if (car != '\n')
-        {
-            while (getchar() != '\n')
-                ;
-        }
-    }
-
     // Llenamos las listas según la opción elegida
-    cargar_listas(l1, cantidad, opcion);
-    cargar_listas(l2, cantidad, opcion);
+    validacion_ingreso();
+    l1 = rellenarLista(cantidad);
+    validacion_ingreso();
+    l2 = rellenarLista(cantidad);
 
     // Mostramos las listas cargadas
     printf("Lista 1: ");
@@ -88,9 +75,27 @@ int main()
     return 0;
 }
 
-void cargar_listas(Lista lista, int cantidad, int opcion)
+Lista rellenarLista(int elementos);
 {
+    Lista l1 = l_crear();
+
+    int opcion = 0;
     char car;
+
+    // Modalidad de carga de las listas
+    printf("Desea cargar las listas con elementos aleatorios? (1 para aleatorio, 0 para manual): ");
+
+    // Validacion de dato
+    while (scanf("%d%c", &opcion, &car) != 2 || car != '\n' || (opcion != 0 && opcion != 1))
+    {
+        printf("Opcion invalida. Ingrese 1 para aleatorio o 0 para manual: ");
+        if (car != '\n')
+        {
+            while (getchar() != '\n')
+                ;
+        }
+    }
+
     // Opcion aleatoria
     if (opcion == 1)
     {
@@ -194,7 +199,6 @@ float promedio(Lista l1)
         TipoElemento te = siguiente(iter);
         // Guarda el promedio sumando
         promedio += te->clave;
-
     }
     promedio = promedio / cantidad;
     return promedio;
