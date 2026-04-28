@@ -1,4 +1,4 @@
-#include "listas.h"
+#include "../02-trabajoPractico-Listas/tp_2_listas.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
