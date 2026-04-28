@@ -6,7 +6,7 @@
 void cargar_listas(Lista lista, int cantidad, int opcion);
 Lista en_l1_no_en_l2(Lista l1, Lista l2);
 Lista coincidencias(Lista l1, Lista l2);
-float promedio(Lista l1, int cantidad);
+float promedio(Lista l1);
 void obtener_minimo(Lista lista, int *min, int *pos_min);
 
 int main()
