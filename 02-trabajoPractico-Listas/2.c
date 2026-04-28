@@ -183,9 +183,10 @@ Lista coincidencias(Lista l1, Lista l2)
     return coincidencias;
 }
 
-float promedio(Lista l1, int cantidad)
+float promedio(Lista l1)
 {
     float promedio = 0;
+    int cantidad = 0;
     Iterador iter = iterador(l1); // Iterador para recorrer una lista
     while (hay_siguiente(iter))   // Verifica si hay siguiente
     {
@@ -193,6 +194,7 @@ float promedio(Lista l1, int cantidad)
         TipoElemento te = siguiente(iter);
         // Guarda el promedio sumando
         promedio += te->clave;
+
     }
     promedio = promedio / cantidad;
     return promedio;
