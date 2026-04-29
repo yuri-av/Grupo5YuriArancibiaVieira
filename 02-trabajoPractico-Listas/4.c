@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdbool.h>
 
+int validacion_ingreso();
 void cargar_listas(Lista lista, int cantidad, int opcion);
 void CompararListas(Lista l1, Lista L2);
 
@@ -86,42 +87,75 @@ int main()
     ===============================================================================*/
 }
 
-void cargar_listas(Lista lista, int cantidad, int opcion)
+int validacion_ingreso()
 {
+    int numero;
     char car;
+
+    while (scanf("%d%c", &numero, &car) != 2 || car != '\n')
+    {
+        // Mensaje genérico para cualquier número entero
+        printf("Opcion invalida. Ingrese un numero entero: ");
+
+        // Limpieza del buffer de entrada
+        if (car != '\n')
+        {
+            while (getchar() != '\n')
+                ;
+        }
+    }
+
+    // Retornamos el valor ya validado
+    return numero;
+}
+// Asumimos que validacion_ingreso() ya esta definida antes de esta funcion
+
+Lista rellenarLista(int elementos)
+{
+    Lista lista = l_crear();
+    int opcion;
+
+    // Modalidad de carga de las listas
+    printf("Desea cargar la lista con elementos aleatorios? (1 para aleatorio, 0 para manual):\n");
+
+    // Validacion especifica para 0 o 1
+    do
+    {
+        opcion = validacion_ingreso(); // Nos aseguramos de que ingrese un numero entero
+
+        if (opcion != 0 && opcion != 1)
+        {
+            printf("Opcion invalida. Ingrese 1 para aleatorio o 0 para manual: ");
+        }
+    } while (opcion != 0 && opcion != 1);
+
     // Opcion aleatoria
     if (opcion == 1)
     {
-        for (int i = 0; i < cantidad; i++)
+        for (int i = 0; i < elementos; i++) // Usamos 'elementos' en lugar de 'cantidad'
         {
             int clave = rand() % 100;
             TipoElemento te = te_crear(clave);
-            l_agregar(lista, te);
+            l_agregar(lista, te); // Usamos 'l1'
         }
     }
     // Opcion manual
     else if (opcion == 0)
     {
-        for (int i = 0; i < cantidad; i++)
+        for (int i = 0; i < elementos; i++) // Usamos 'elementos' en lugar de 'cantidad'
         {
-            int clave;
             printf("Ingrese la clave del elemento %d: ", i + 1);
-            while (scanf("%d%c", &clave, &car) != 2 || car != '\n')
-            {
-                printf("ERROR: NUMERO INVALIDO\n");
-                printf("Ingrese un numero entero: ");
-                if (car != '\n')
-                {
-                    while (getchar() != '\n')
-                        ;
-                }
-            }
+
+            // Reemplazamos todo el bucle de limpieza y scanf por tu funcion generica
+            int clave = validacion_ingreso();
+
             TipoElemento te = te_crear(clave);
-            l_agregar(lista, te);
+            l_agregar(lista, te); // Usamos 'l1'
         }
     }
-}
 
+    return lista; // Devolvemos la lista ya rellenada
+}
 void comparacion(Lista l1, Lista l2, int *c_mayores1, int *c_mayores2)
 {
     int clave_actual_l1 = 0;
