@@ -1,11 +1,12 @@
 //#include "D:\Mario\Prog_2_2009\2024\TADs\Listas\listas.h"
-#include ".\listas.h"
+#include "listas.h"
+#include "tipo_elemento.h"
 #include <stdlib.h>
 #include <stdio.h>
 //#include "D:\Mario\Prog_2_2009\2024\TADs\Tipos\tipo_elemento.h"
-#include "..\headers\tipo_elemento.h"
 
-static const int TAMANIO_MAXIMO = 100;
+
+//static const int TAMANIO_MAXIMO = 100;
 
 struct ListaRep {
     TipoElemento *valores;
