@@ -5,123 +5,75 @@
 #include <stdbool.h>
 
 int validacion_ingreso();
-void cargar_listas(Lista lista, int cantidad, int opcion);
-void CompararListas(Lista l1, Lista L2);
+Lista rellenarLista(int elementos);
+void CompararListas(Lista l1, Lista l2);
 
 int main()
 {
     srand(time(NULL));
-    Lista l1 = l_crear();
-    Lista l2 = l_crear();
-    // Contador de claves mayores
-    int c_mayores1 = 0;
-    int c_mayores2 = 0;
-
-    // Tamaño de las listas
+    Lista l1, l2;
     int cantidad = 0;
-    char car;
-    int opcion;
+
     printf("Ingrese la cantidad de elementos a agregar a las listas: ");
+    cantidad = validacion_ingreso();
 
-    // Validacion de dato
-    while (scanf("%d%c", &cantidad, &car) != 2 || car != '\n')
-    {
-        printf("ERROR: Ingrese una cantidad con numeros enteros: ");
-        if (car != '\n')
-        {
-            while (getchar() != '\n')
-                ;
-        }
-    }
+    // Llenamos las listas
+    printf("\n--- Carga de la Lista 1 ---\n");
+    l1 = rellenarLista(cantidad);
 
-    // Modalidad de carga de las listas
-    printf("Desea cargar las listas con elementos aleatorios? (1 para aleatorio, 0 para manual): ");
-
-    // Validacion de dato
-    while (scanf("%d%c", &opcion, &car) != 2 || car != '\n' || (opcion != 0 && opcion != 1))
-    {
-        printf("Opcion invalida. Ingrese 1 para aleatorio o 0 para manual: ");
-        if (car != '\n')
-        {
-            while (getchar() != '\n')
-                ;
-        }
-    }
-
-    // Llenamos las listas según la opción elegida
-    cargar_listas(l1, cantidad, opcion);
-    cargar_listas(l2, cantidad, opcion);
-    /*Cargar listas 1 y 2 tienen una complejidad de O(N), quiere decir
-    que crece su complejidad proporcionalmente al tamaño de la lista, o las listas*/
+    printf("\n--- Carga de la Lista 2 ---\n");
+    l2 = rellenarLista(cantidad);
 
     // Mostramos las listas cargadas
-    printf("Lista 1: ");
+    printf("\nLista 1: ");
     l_mostrar(l1);
     printf("Lista 2: ");
     l_mostrar(l2);
 
-    // Calculamos los totales
-    comparacion(l1, l2, &c_mayores1, &c_mayores2);
-    // La funcion comparación tiene una complejidad de O(N) que crece proporcionalmente al tamaño de las listas
-
-    // Los comparamos para ver cual es más grande o si son iguales
-    if (c_mayores1 > c_mayores2)
-    {
-        printf("L1 tiene mas claves mayores que L2\n");
-    }
-    else if (c_mayores1 < c_mayores2)
-    {
-        printf("L1 tiene menos claves mayores que L2\n");
-    }
-    else
-    {
-        printf("Ambas listas tienen la misma cantidad de claves mayores\n");
-    }
-    return 0;
+    // Comparamos las listas
+    CompararListas(l1, l2);
 
     /*================================== NOTAS =====================================
+    Complejidad: O(N)
     Como en todas las funciones empleadas, tanto de carga como de comparación
     de las listas siempre se utilizan bucles for o while, la complejidad pasa a ser
     de 3N, pero como no se tienen en cuenta las constantes, solo tenemos en cuenta
-    que tienen una complejidad de O(N)
+    que tienen una complejidad de O(N).
     ===============================================================================*/
+
+    return 0;
 }
 
 int validacion_ingreso()
 {
     int numero;
-    char car;
+    char car = '\0'; // Inicializamos limpia
 
     while (scanf("%d%c", &numero, &car) != 2 || car != '\n')
     {
-        // Mensaje genérico para cualquier número entero
         printf("Opcion invalida. Ingrese un numero entero: ");
 
-        // Limpieza del buffer de entrada
         if (car != '\n')
         {
             while (getchar() != '\n')
                 ;
         }
+        car = '\0'; // Reseteamos para la próxima vuelta
     }
 
-    // Retornamos el valor ya validado
     return numero;
 }
-// Asumimos que validacion_ingreso() ya esta definida antes de esta funcion
 
 Lista rellenarLista(int elementos)
 {
     Lista lista = l_crear();
     int opcion;
 
-    // Modalidad de carga de las listas
     printf("Desea cargar la lista con elementos aleatorios? (1 para aleatorio, 0 para manual):\n");
 
-    // Validacion especifica para 0 o 1
     do
     {
-        opcion = validacion_ingreso(); // Nos aseguramos de que ingrese un numero entero
+        opcion = validacion_ingreso();
 
         if (opcion != 0 && opcion != 1)
         {
@@ -129,46 +81,43 @@ Lista rellenarLista(int elementos)
         }
     } while (opcion != 0 && opcion != 1);
 
-    // Opcion aleatoria
     if (opcion == 1)
     {
-        for (int i = 0; i < elementos; i++) // Usamos 'elementos' en lugar de 'cantidad'
+        for (int i = 0; i < elementos; i++)
         {
             int clave = rand() % 100;
             TipoElemento te = te_crear(clave);
-            l_agregar(lista, te); // Usamos 'l1'
+            l_agregar(lista, te);
         }
     }
-    // Opcion manual
     else if (opcion == 0)
     {
-        for (int i = 0; i < elementos; i++) // Usamos 'elementos' en lugar de 'cantidad'
+        for (int i = 0; i < elementos; i++)
         {
             printf("Ingrese la clave del elemento %d: ", i + 1);
-
-            // Reemplazamos todo el bucle de limpieza y scanf por tu funcion generica
             int clave = validacion_ingreso();
-
             TipoElemento te = te_crear(clave);
-            l_agregar(lista, te); // Usamos 'l1'
+            l_agregar(lista, te);
         }
     }
 
-    return lista; // Devolvemos la lista ya rellenada
+    return lista;
 }
-void comparacion(Lista l1, Lista l2, int *c_mayores1, int *c_mayores2)
+
+void CompararListas(Lista l1, Lista l2)
 {
-    int clave_actual_l1 = 0;
-    int clave_actual_l2 = 0;
+    int c_mayores1 = 0;
+    int c_mayores2 = 0;
+
     // Verificamos que no tengan longitudes distintas o que no estén vacías
     if (l_longitud(l1) != l_longitud(l2))
     {
-        printf("Las longitudes de las listas no coinciden, no se pueden comparar\n");
+        printf("\nLas longitudes de las listas no coinciden, no se pueden comparar\n");
         return;
     }
-    else if (l_es_vacia(l1) || l_es_vacia(l2))
+    if (l_es_vacia(l1) || l_es_vacia(l2))
     {
-        printf("Error: una o ambas listas estan vacias\n");
+        printf("\nError: una o ambas listas estan vacias\n");
         return;
     }
 
@@ -178,19 +127,31 @@ void comparacion(Lista l1, Lista l2, int *c_mayores1, int *c_mayores2)
     while (hay_siguiente(iter1))
     {
         TipoElemento te1 = siguiente(iter1);
-        clave_actual_l1 = te1->clave;
         TipoElemento te2 = siguiente(iter2);
-        clave_actual_l2 = te2->clave;
-        // Comparamos cada clave
-        if (clave_actual_l1 > clave_actual_l2)
+
+        // Comparamos directamente las claves sin variables temporales
+        if (te1->clave > te2->clave)
         {
-            // los paréntesis son para que sume 1 al valor CONTENIDO en la dirección de memoria y no a la dirección de memoria
-            (*c_mayores1)++;
+            c_mayores1++;
         }
-        else if (clave_actual_l1 < clave_actual_l2)
+        else if (te1->clave < te2->clave)
         {
-            (*c_mayores2)++;
+            c_mayores2++;
         }
         // Si son iguales las claves no hacemos nada
+    }
+
+    // Imprimimos el resultado final dentro de la función
+    if (c_mayores1 > c_mayores2)
+    {
+        printf("\nL1 tiene mas claves mayores que L2\n");
+    }
+    else if (c_mayores1 < c_mayores2)
+    {
+        printf("\nL1 tiene menos claves mayores que L2\n");
+    }
+    else
+    {
+        printf("\nAmbas listas tienen la misma cantidad de claves mayores\n");
     }
 }

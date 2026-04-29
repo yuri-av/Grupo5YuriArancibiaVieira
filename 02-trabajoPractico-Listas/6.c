@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 #include "tp_2_listas.h"
 #include "listas.h"
 #include "tipo_elemento.h"
@@ -11,72 +12,46 @@ bool esSublista(Lista l1, Lista l2);
 
 int main()
 {
-    int cantidad;
-    int elemento;
-    int control;
+    srand(time(NULL));
 
-    Lista l1 = l_crear();
-    Lista l2 = l_crear();
+    int cantidad1, cantidad2;
 
     printf("=== VERIFICAR SUBLISTAS ===\n");
-    printf("Cargue la primer lista."\n);
-    printf("Ingrese la cantidad de elementos de la lista 1.\n");
-    control = scanf("%d", &cantidad);
 
-    while (cantidad <= 0 || control != 1)
+    /* ================= CARGA DE LISTA 1 ================= */
+    printf("\n--- Carga de la Lista 1 ---\n");
+    printf("Ingrese la cantidad de elementos de la lista 1: ");
+    cantidad1 = validacion_ingreso();
+
+    while (cantidad1 <= 0)
     {
-        printf("INGRESO INVALIDO. Ingrese un número mayor a 0.\n");
-        while (getchar() != '\n')
-            ;
-        scanf("%d", cantidad1);
-    }
-    for (int i = 0; i < cantidad; i++)
-    {
-        printf("Ingrese el elemeto %d de la lista 1.", i + 1);
-        control = scanf("%d", &elemento);
-        while (control != 1)
-        {
-            printf("INGRESO INVALIDO. Ingrese un número.\n");
-            while (getchar() != '\n')
-                ;
-            scanf("%d", &elemento);
-        }
-        l_agregar(l1, te_crear(elemento));
+        printf("INGRESO INVALIDO. Ingrese un numero mayor a 0: ");
+        cantidad1 = validacion_ingreso();
     }
 
-    printf("Cargue la segunda lista."\n);
-    printf("Ingrese la cantidad de elementos de la lista 1.\n");
-    control = scanf("%d", &cantidad1);
+    Lista l1 = rellenarLista(cantidad1);
 
-    while (cantidad <= 0 || control != 1)
+    /* ================= CARGA DE LISTA 2 ================= */
+    printf("\n--- Carga de la Lista 2 ---\n");
+    printf("Ingrese la cantidad de elementos de la lista 2: ");
+    cantidad2 = validacion_ingreso();
+
+    while (cantidad2 <= 0)
     {
-        printf("INGRESO INVALIDO. Ingrese un número mayor a 0.\n");
-        while (getchar() != '\n')
-            ;
-        scanf("%d", &cantidad);
-    }
-    for (int i = 0; i < cantidad; i++)
-    {
-        printf("Ingrese el elemeto %d de la lista 2.", i + 1);
-        control = scanf("%d", &elemento);
-        while (control != 1)
-        {
-            printf("INGRESO INVALIDO. Ingrese un número.\n");
-            while (getchar() != '\n')
-                ;
-            scanf("%d", &elemento);
-        }
-        l_agregar(l2, te_crear(elemento));
+        printf("INGRESO INVALIDO. Ingrese un numero mayor a 0: ");
+        cantidad2 = validacion_ingreso();
     }
 
+    Lista l2 = rellenarLista(cantidad2);
+
+    /* ================= MOSTRAR Y EVALUAR ================= */
     printf("\nLista 1:\n");
     l_mostrar(l1);
 
     printf("\nLista 2:\n");
     l_mostrar(l2);
 
-    /* VERIFICAR EN AMBOS SENTIDOS */
-
+    // VERIFICAR EN AMBOS SENTIDOS
     if (esSublista(l1, l2))
     {
         printf("\nLa Lista 2 es sublista de la Lista 1.\n");
@@ -101,38 +76,33 @@ int main()
 int validacion_ingreso()
 {
     int numero;
-    char car;
+    char car = '\0';
 
     while (scanf("%d%c", &numero, &car) != 2 || car != '\n')
     {
-        // Mensaje genérico para cualquier número entero
         printf("Opcion invalida. Ingrese un numero entero: ");
 
-        // Limpieza del buffer de entrada
         if (car != '\n')
         {
             while (getchar() != '\n')
                 ;
         }
+        car = '\0'; // Reseteamos para la próxima vuelta
     }
 
-    // Retornamos el valor ya validado
     return numero;
 }
-// Asumimos que validacion_ingreso() ya esta definida antes de esta funcion
 
 Lista rellenarLista(int elementos)
 {
     Lista lista = l_crear();
     int opcion;
 
-    // Modalidad de carga de las listas
     printf("Desea cargar la lista con elementos aleatorios? (1 para aleatorio, 0 para manual):\n");
 
-    // Validacion especifica para 0 o 1
     do
     {
-        opcion = validacion_ingreso(); // Nos aseguramos de que ingrese un numero entero
+        opcion = validacion_ingreso();
 
         if (opcion != 0 && opcion != 1)
         {
@@ -140,33 +110,29 @@ Lista rellenarLista(int elementos)
         }
     } while (opcion != 0 && opcion != 1);
 
-    // Opcion aleatoria
     if (opcion == 1)
     {
-        for (int i = 0; i < elementos; i++) // Usamos 'elementos' en lugar de 'cantidad'
+        for (int i = 0; i < elementos; i++)
         {
             int clave = rand() % 100;
             TipoElemento te = te_crear(clave);
-            l_agregar(lista, te); // Usamos 'l1'
+            l_agregar(lista, te);
         }
     }
-    // Opcion manual
     else if (opcion == 0)
     {
-        for (int i = 0; i < elementos; i++) // Usamos 'elementos' en lugar de 'cantidad'
+        for (int i = 0; i < elementos; i++)
         {
             printf("Ingrese la clave del elemento %d: ", i + 1);
-
-            // Reemplazamos todo el bucle de limpieza y scanf por tu funcion generica
             int clave = validacion_ingreso();
-
             TipoElemento te = te_crear(clave);
-            l_agregar(lista, te); // Usamos 'l1'
+            l_agregar(lista, te);
         }
     }
 
-    return lista; // Devolvemos la lista ya rellenada
+    return lista;
 }
+
 bool esSublista(Lista l1, Lista l2)
 {
     Iterador it = iterador(l2);

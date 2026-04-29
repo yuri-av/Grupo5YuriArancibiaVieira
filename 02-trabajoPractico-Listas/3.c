@@ -3,57 +3,65 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdbool.h>
+#include "listas.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <stdbool.h>
+
+typedef struct
+{
+    bool esMultiplo;
+    bool escalar;
+    int numEscalar;
+} ResultadosMul;
 
 int validacion_ingreso();
-void cargar_listas(Lista lista, int cantidad, int opcion);
-void es_multiplo(Lista l1, Lista l2);
+Lista rellenarLista(int elementos);
+ResultadosMul multiplo(Lista l1, Lista l2);
 
 int main()
 {
     srand(time(NULL));
-    Lista l1 = l_crear();
-    Lista l2 = l_crear();
-    char car;
-    int cantidad, opcion;
+    int cantidad = 0;
+    Lista l1, l2;
 
-    // Tamaño de las listas
     printf("Ingrese la cantidad de elementos a agregar a las listas: ");
+    cantidad = validacion_ingreso();
 
-    while (scanf("%d%c", &cantidad, &car) != 2 || car != '\n')
-    {
-        printf("ERROR: Ingrese una cantidad con numeros enteros: ");
-        if (car != '\n')
-        {
-            while (getchar() != '\n')
-                ;
-        }
-    }
+    // Llenamos las listas.
+    printf("\n--- Carga de la Lista 1 ---\n");
+    l1 = rellenarLista(cantidad);
 
-    // Modalidad de carga de las listas
-    printf("Desea cargar las listas con elementos aleatorios? (1 para aleatorio, 0 para manual): ");
-
-    while (scanf("%d%c", &opcion, &car) != 2 || car != '\n' || (opcion != 0 && opcion != 1))
-    {
-        printf("Opcion invalida. Ingrese 1 para aleatorio o 0 para manual: ");
-        if (car != '\n')
-        {
-            while (getchar() != '\n')
-                ;
-        }
-    }
-
-    // Llenamos las listas según la opción elegida
-    cargar_listas(l1, cantidad, opcion);
-    cargar_listas(l2, cantidad, opcion);
+    printf("\n--- Carga de la Lista 2 ---\n");
+    l2 = rellenarLista(cantidad);
 
     // Mostramos las listas cargadas
-    printf("Lista 1: ");
+    printf("\nLista 1: ");
     l_mostrar(l1);
     printf("Lista 2: ");
     l_mostrar(l2);
 
     // Verificamos multiplicidad
-    es_multiplo(l1, l2);
+    ResultadosMul resultado = multiplo(l1, l2);
+
+    // Mostramos los mensajes en el main, leyendo los datos del struct
+    if (!resultado.esMultiplo)
+    {
+        printf("\nL2 no es multiplo de L1\n");
+    }
+    else
+    {
+        printf("\nL2 es multiplo de L1");
+        if (!resultado.escalar)
+        {
+            printf(" y no es escalar uno de otro\n");
+        }
+        else
+        {
+            printf(" y es escalar por %i\n", resultado.numEscalar);
+        }
+    }
 
     return 0;
 }
@@ -79,7 +87,6 @@ int validacion_ingreso()
     // Retornamos el valor ya validado
     return numero;
 }
-// Asumimos que validacion_ingreso() ya esta definida antes de esta funcion
 
 Lista rellenarLista(int elementos)
 {
@@ -127,73 +134,73 @@ Lista rellenarLista(int elementos)
 
     return lista; // Devolvemos la lista ya rellenada
 }
-void es_multiplo(Lista l1, Lista l2)
+
+ResultadosMul multiplo(Lista l1, Lista l2)
 {
+    ResultadosMul res;
+    // Inicializamos el struct por defecto asumiendo que no es múltiplo
+    res.esMultiplo = false;
+    res.escalar = false;
+    res.numEscalar = 0;
+
     // Verificamos que no tengan longitudes distintas o que no estén vacías
     if (l_longitud(l1) != l_longitud(l2))
     {
-        printf("Las longitudes de las listas no coinciden, no se pueden comparar\n");
-        return;
+        printf("\nError: Las longitudes de las listas no coinciden.\n");
+        return res; // Retornamos el struct en false
     }
-    else if (l_es_vacia(l1) || l_es_vacia(l2))
+    if (l_es_vacia(l1) || l_es_vacia(l2))
     {
-        printf("Error: una o ambas listas estan vacias\n");
-        return;
+        printf("\nError: Una o ambas listas estan vacias.\n");
+        return res; // Retornamos el struct en false
     }
 
     bool flag = true;
-    Iterador iter1 = iterador(l1);
-    Iterador iter2 = iterador(l2);
     bool es_escalar = true;
     int primer_cociente = -1;
+
+    Iterador iter1 = iterador(l1);
+    Iterador iter2 = iterador(l2);
 
     while (hay_siguiente(iter1) && flag)
     {
         TipoElemento te1 = siguiente(iter1);
         TipoElemento te2 = siguiente(iter2);
 
-        // No son multiplos uno de otro
-        if (te2->clave % te1->clave != 0 || te1->clave == 0)
+        // Evitamos división por cero y verificamos si NO es múltiplo
+        if (te1->clave == 0 || te2->clave % te1->clave != 0)
         {
             flag = false;
             es_escalar = false;
         }
-        // En caso de que sea multiplo el numero actual
         else
         {
             int cociente_actual = te2->clave / te1->clave;
-            printf("%i / %i = %i\n", te2->clave, te1->clave, cociente_actual);
 
-            // Primera iteración asigna valor a primer cociente
+            // Primera iteración: asigna el valor al primer cociente
             if (primer_cociente == -1)
             {
                 primer_cociente = cociente_actual;
-                printf("Primer cociente de la lista: %i\n", primer_cociente);
             }
-            // Caso de que no sea igual al anterior cociente
+            // Siguientes iteraciones: verificamos si se rompe la propiedad de escalar
             else if (cociente_actual != primer_cociente)
             {
-                printf("Se encontró un valor que hace que no sea escalar\n");
                 es_escalar = false;
             }
-            // Else implicito, si no son distintos entonces es_escalar = true
         }
     }
 
-    if (!flag)
+    // Cargamos los resultados finales en el struct
+    res.esMultiplo = flag;
+
+    // Solo puede ser escalar si la bandera principal de múltiplo se mantuvo verdadera
+    res.escalar = (flag && es_escalar);
+
+    // Si resultó ser escalar, guardamos el número; si no, dejamos un 0
+    if (res.escalar)
     {
-        printf("L2 no es multiplo de L1\n");
+        res.numEscalar = primer_cociente;
     }
-    else
-    {
-        printf("L2 es multiplo de L1");
-        if (!es_escalar)
-        {
-            printf(" y no es escalar uno de otro\n");
-        }
-        else
-        {
-            printf(" y es escalar por %i\n", primer_cociente);
-        }
-    }
+
+    return res;
 }
