@@ -131,7 +131,7 @@ Lista rellenarLista(int elementos)
         {
             printf("Ingrese la clave del elemento %d: ", i + 1);
 
-            // Reemplazamos todo el bucle de limpieza y scanf por tu funcion generica
+            // Reemplazamos todo el bucle de limpieza y scanf por la funcion generica
             int clave = validacion_ingreso();
 
             TipoElemento te = te_crear(clave);
