@@ -124,3 +124,21 @@ int leerEntero(const char *mensaje, bool permitirNegativos){
         }
     }
 }
+
+
+double validacion_ingreso_double(){
+    double numero;
+    char car = '\0';
+
+    while (scanf("%lf%c", &numero, &car) != 2 || car != '\n')
+    {
+        printf("Entrada invalida. Ingrese un numero (puede usar decimales): ");
+        if (car != '\n')
+        {
+            while (getchar() != '\n')
+                ;
+        }
+        car = '\0';
+    }
+    return numero;
+}

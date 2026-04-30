@@ -15,5 +15,6 @@ void leerCadena(const char *mensaje, char *buffer, int limite);
 //Herramientas para enteros
 int leerEntero(const char *mensaje, bool permitirNegativos);
 
-
+//validacion para double int
+double validacion_ingreso_double();
 #endif 

@@ -224,59 +224,40 @@ F(0,5) y F(1).*/
 mismos tendrán el exponente o grado del término (entero mayor o igual a 0) en "clave" y el coeficiente real 
 apuntado por "valor". */
 void hacerPolinomio(Lista list){
-    int n, exponente, control;
+    int exponente, control;
     float coeficiente;
 
-    /* VALIDAR CANTIDAD DE TERMINOS */
-    printf("Ingrese cantidad de terminos del polinomio (mayor a 0): ");
-    control = scanf("%d", &n);
+    /* VALIDAR EXPONENTE */
+    printf("Ingrese el exponente (entero >= 0): ");
+    control = scanf("%d", &exponente);
 
-    while (control != 1 || n <= 0)
+    while (control != 1 || exponente < 0)
     {
-        printf("Error: debe ingresar un numero entero mayor a 0.\n");
+        printf("Error: el exponente debe ser un entero mayor o igual a 0.\n");
         while (getchar() != '\n');
-        printf("Ingrese cantidad de terminos del polinomio (mayor a 0): ");
-        control = scanf("%d", &n);
-    }
-
-    for (int i = 0; i < n; i++)
-    {
-        printf("\n-- Termino %d --\n", i + 1);
-
-        /* VALIDAR EXPONENTE */
         printf("Ingrese el exponente (entero >= 0): ");
         control = scanf("%d", &exponente);
-
-        while (control != 1 || exponente < 0)
-        {
-            printf("Error: el exponente debe ser un entero mayor o igual a 0.\n");
-            while (getchar() != '\n');
-            printf("Ingrese el exponente (entero >= 0): ");
-            control = scanf("%d", &exponente);
-        }
-
-        /* VALIDAR COEFICIENTE */
-        printf("Ingrese el coeficiente (real): ");
-        control = scanf("%f", &coeficiente);
-
-        while (control != 1)
-        {
-            printf("Error: debe ingresar un numero valido.\n");
-            while (getchar() != '\n');
-            printf("Ingrese el coeficiente (real): ");
-            control = scanf("%f", &coeficiente);
-        }
-
-        // Reservamos memoria para el coeficiente porque valor es void*
-        float* punteroCoef = (float*) malloc(sizeof(float));
-        *punteroCoef = coeficiente;
-
-        // clave = exponente, valor = dirección del coeficiente
-        TipoElemento termino = te_crear_con_valor(exponente, punteroCoef);
-        l_agregar(list, termino);
     }
 
-    printf("\nPolinomio cargado con %d terminos.\n", n);
+    /* VALIDAR COEFICIENTE */
+    printf("Ingrese el coeficiente (real): ");
+    control = scanf("%f", &coeficiente);
+
+    while (control != 1)
+    {
+        printf("Error: debe ingresar un numero valido.\n");
+        while (getchar() != '\n');
+        printf("Ingrese el coeficiente (real): ");
+        control = scanf("%f", &coeficiente);
+    }
+
+    // Reservamos memoria para el coeficiente porque valor es void*
+    float* punteroCoef = (float*) malloc(sizeof(float));
+    *punteroCoef = coeficiente;
+
+    // clave = exponente, valor = dirección del coeficiente
+    TipoElemento termino = te_crear_con_valor(exponente, punteroCoef);
+    l_agregar(list, termino);
 }
 /*Función que recibe el polinomio y un número real y devuelve el valor del polinomio 
 evaluado en ese valor de x.*/
@@ -312,7 +293,7 @@ Lista calcularRango(Lista list, double x, double y, double sumando){
     double actual = x;
 
     // Recorremos el rango de x hasta y de a sumando
-    while (actual <= y)
+    while (actual <= (y + 0.00001))
     {
         float valorEnX = evaluarPoliomio(list, (float) actual);
 
