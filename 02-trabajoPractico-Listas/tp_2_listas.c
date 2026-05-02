@@ -28,19 +28,16 @@ Lista verElementosQueNoSeRepiten(Lista l1, Lista l2)
 }
 
 // 2_b
-
-Lista verElementosQueNoSeRepiten(Lista l1, Lista l2)
-{
+/*
+Lista verElementosQueNoSeRepiten(Lista l1, Lista l2) {
     Lista resultado = l_crear();
 
     Iterador it = iterador(l2);
-    while (hay_siguiente(it))
-    {
+    while (hay_siguiente(it)) {
         TipoElemento e = siguiente(it);
 
         // Si la clave de e NO está en l1, la agrego al resultado
-        if (l_buscar(l1, e->clave) == NULL)
-        {
+        if (l_buscar(l1, e->clave) == NULL) {
             TipoElemento nuevo = te_crear(e->clave);
             l_agregar(resultado, nuevo);
         }
@@ -48,7 +45,7 @@ Lista verElementosQueNoSeRepiten(Lista l1, Lista l2)
 
     return resultado;
 }
-
+*/
 // 2_c  Que retorne una lista con todos los valores comunes a ambas listas (L1 y L2).
 Lista verElementosRepetidos(Lista l1, Lista l2)
 {
