@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
+#include <string.h>
 
 #include "tp_pilas.h"
 #include "validaciones.h"
@@ -110,7 +110,7 @@ int main(){
                             p_mostrar(p);
                             break;
                         }
-                        case ' C':{
+                        case 'C':{
                             /* PUNTO C*/
                             printf("===EJERCICIO 2 PUNTO C===\n");
                             int clave;
@@ -166,7 +166,9 @@ int main(){
                     }
 
                 } while (letra!='G');
-        
+                printf("\nPresione Enter para continuar...");
+                while(getchar() != '\n');  // limpia el buffer
+                getchar();                  // ahora sí espera al usuario
                 break;
             }
             case 'B':{
@@ -189,6 +191,9 @@ int main(){
                 }
 
                 printf("Este ejercicio tiene una complejidad Algoritmica de O(n) donde n representa la cantidad de elementos de la pila");
+                printf("\nPresione Enter para continuar...");
+                while(getchar() != '\n');  // limpia el buffer
+                getchar();                  // ahora sí espera al usuario
                 break;
             }
             case 'C':{
@@ -200,14 +205,17 @@ int main(){
 
                 nrootrabase=leerEntero("ingrese una base entre 2 y 16",false);
                 while (nrootrabase < 2 || nrootrabase > 16){
-                    nrootrabase=leerEntero("por favor, ingrese una base entre 2 y 16",false);               
+                    nrootrabase=leerEntero("por favor, ingrese una base entre 2 y 16:",false);               
                 }
                 res = p_ej4_cambiarbase(nrobasedecimal, nrootrabase);
                 printf("Resultado: %s\n", res);
                 printf("La cantidad de divisiones que se hacen es proporcional a la cantidad de dígitos del resultado,\n");
-                printf("que es log en la base elegida del número original. por lo que tenemos una complejidad algoritmica de O(log n)");
+                printf("que es log en la base elegida del numero original. por lo que tenemos una complejidad algoritmica de O(log n)");
                 
                 free(res);
+                printf("\nPresione Enter para continuar...");
+                while(getchar() != '\n');  // limpia el buffer
+                getchar();
                 break;
             }
             case 'D':{
@@ -222,6 +230,9 @@ int main(){
                 printf("\nPila invertida: ");
                 p_mostrar(invertida);
 
+                printf("\nPresione Enter para continuar...");
+                while(getchar() != '\n');  // limpia el buffer
+                getchar();
                 break;
             }
             case 'E':{
@@ -244,6 +255,9 @@ int main(){
                 rec=p_ej6_eliminarclaveRecu(p,clave);
                 p_mostrar(rec);
 
+                printf("\nPresione Enter para continuar...");
+                while(getchar() != '\n');  // limpia el buffer
+                getchar();
                 break;
             }
             case 'F':{
@@ -268,6 +282,10 @@ int main(){
                     p_mostrar(rec);
                     printf("Complejidad: O(n^2), Recorre con un bucle O(n) y dentro de este p_buscar Ejecuta otro: O(n) * O(n) = O(n^2)");
                 }
+
+                printf("\nPresione Enter para continuar...");
+                while(getchar() != '\n');  // limpia el buffer
+                getchar();
                 break;
             }
             case 'G':{
@@ -281,7 +299,10 @@ int main(){
                 rec=p_ej8_sacarrepetidos(p);
                 printf("Pila sin valores repetidos  : ");
                 p_mostrar(rec);
-                
+
+                printf("\nPresione Enter para continuar...");
+                while(getchar() != '\n');  // limpia el buffer
+                getchar();
                 break;
             }
             default:
@@ -293,25 +314,14 @@ int main(){
     return 0;
 }
 
-Pila ReApilar(Pila PilaAuxuliar,Pila Armar){
-    TipoElemento x;
-    while (!p_es_vacia(PilaAuxuliar))
-    {
-    x = p_desapilar(PilaAuxuliar);
-    p_apilar(Armar,x);
-    }
-    
-    return Armar;
-}
-
 void cargarPila(Pila p){
     int tamanio;
 
-    tamanio=leerEntero("Ingrese el tamaño de la Pila (expresado en enteros)",false);
+    tamanio=leerEntero("Ingrese el tamanio de la Pila (expresado en enteros):",false);
 
     for(int i = 0;i<tamanio;i++){
         int Clave = 0;
-        Clave=leerEntero("ingrese la clave a apilar para P : ",false);
+        Clave=leerEntero("ingrese la clave a apilar para la pila: ",false);
 
         TipoElemento x = te_crear(Clave);
         p_apilar(p,x);

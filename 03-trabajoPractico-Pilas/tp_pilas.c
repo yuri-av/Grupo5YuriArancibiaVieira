@@ -5,7 +5,7 @@
 #include "tp_pilas.h"
 #include "pilas.h"
 #include "tipo_elemento.h"
-
+Pila ReApilar(Pila PilaAuxuliar,Pila Armar);
 // EJERCICIO 2
 /*a. Buscar una clave y determinar si existe en la Pila (sin perder la pila).*/
 bool p_ej2_existeclave(Pila p, int clave) {
@@ -488,4 +488,16 @@ Pila p_ej8_sacarrepetidos(Pila p){
     Presultado = ReApilar(Presultado,PresultadoAux); 
 
     return Presultado;
+}
+
+//funcion auxiliar
+Pila ReApilar(Pila PilaAuxuliar,Pila Armar){
+    TipoElemento x;
+    while (!p_es_vacia(PilaAuxuliar))
+    {
+    x = p_desapilar(PilaAuxuliar);
+    p_apilar(Armar,x);
+    }
+    
+    return Armar;
 }
