@@ -1,0 +1,15 @@
+pasos para ejecutar:
+
+*en terminal*
+cd 03-trabajoPractico-pilas
+
+elegir implementacion:
+
+para punteros:
+gcc -o main main.c tp_pilas.c ../libs/pilas/implementaciones/pilas_punteros.c ../libs/validaciones/implementaciones/validaciones.c ../libs/tipoElemento/implementaciones/tipo_elemento.c -I../libs/pilas/headers -I../libs/validaciones/headers -I../libs/tipoElemento/headers
+
+para arreglos:
+gcc -o main main.c tp_pilas.c ../libs/pilas/implementaciones/pilas_arreglos.c ../libs/validaciones/implementaciones/validaciones.c ../libs/tipoElemento/implementaciones/tipo_elemento.c -I../libs/pilas/headers -I../libs/validaciones/headers -I../libs/tipoElemento/headers
+
+luego,
+        ./main

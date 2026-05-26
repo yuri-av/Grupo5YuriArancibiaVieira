@@ -11,10 +11,8 @@
 
 //Dada una pila Auxiliar y una pila a armar , se arma la segunda pila siendo la inversa de la auxiliar
 Pila ReApilar(Pila PilaAuxuliar,Pila Armar);
-
 //Invierte la lista con su propio contenido
 Pila Invertir(Pila p);
-
 //cargar pila 
 void cargarPila(Pila p);
 
@@ -128,7 +126,7 @@ int main(){
                             int claveUno, claveDos;
 
                             claveUno=leerEntero("ingrese la primer clave:",false);
-                            claveDos=leerEntero("coloque por cual quiere cambiarla:",false);
+                            claveDos=leerEntero("\ncoloque por cual quiere cambiarla:",false);
 
                             p=p_ej2_intercambiarposiciones(p,claveUno,claveDos);
 
@@ -189,8 +187,8 @@ int main(){
                 } else {
                     printf("\nLas pilas NO son iguales\n");
                 }
-
                 printf("Este ejercicio tiene una complejidad Algoritmica de O(n) donde n representa la cantidad de elementos de la pila");
+                
                 printf("\nPresione Enter para continuar...");
                 while(getchar() != '\n');  // limpia el buffer
                 getchar();                  // ahora sí espera al usuario
@@ -222,7 +220,7 @@ int main(){
                 /*EJERCICIO 5*/
                 Pila p = p_crear();
                 cargarPila(p);
-                printf("Pila armada con valores de usuario : ");
+                printf("Pila armada con valores de usuario: ");
                 p_mostrar(p);
 
                 Pila invertida = p_ej5_invertir(p);
@@ -249,10 +247,12 @@ int main(){
 
                 printf("El metodo iterativo tiene complejidad O(n)\n");
                 it=p_ej6_eliminarclave(p,clave);
+                printf("Pila actualizada:");
                 p_mostrar(it);
 
                 printf("El metodo Recursivo tambien tiene Complejidad O(n)\n");
                 rec=p_ej6_eliminarclaveRecu(p,clave);
+                printf("Pila actualizada:");
                 p_mostrar(rec);
 
                 printf("\nPresione Enter para continuar...");
@@ -270,7 +270,7 @@ int main(){
 
                 printf("Pila uno: ");
                 p_mostrar(p1);
-                printf("Pila dos: ");
+                printf("\nPila dos: ");
                 p_mostrar(p2);
 
                 rec=p_ej7_elementoscomunes(p1,p2);
@@ -280,7 +280,7 @@ int main(){
                 else{
                     printf("las coincidencias fueron:");
                     p_mostrar(rec);
-                    printf("Complejidad: O(n^2), Recorre con un bucle O(n) y dentro de este p_buscar Ejecuta otro: O(n) * O(n) = O(n^2)");
+                    printf("\nComplejidad: O(n^2), Recorre con un bucle O(n) y dentro de este p_buscar Ejecuta otro: O(n) * O(n) = O(n^2)");
                 }
 
                 printf("\nPresione Enter para continuar...");
@@ -297,7 +297,7 @@ int main(){
                 p_mostrar(p);
 
                 rec=p_ej8_sacarrepetidos(p);
-                printf("Pila sin valores repetidos  : ");
+                printf("\nPila sin valores repetidos: ");
                 p_mostrar(rec);
 
                 printf("\nPresione Enter para continuar...");
@@ -318,7 +318,12 @@ void cargarPila(Pila p){
     int tamanio;
 
     tamanio=leerEntero("Ingrese el tamanio de la Pila (expresado en enteros):",false);
-
+    while (tamanio>10)
+    {
+        printf("Atencion, esta definido en pilas.h que el maximo de tamanio es 10. respete este rango.\n");
+        tamanio=leerEntero("Ingrese el tamanio de la Pila (expresado en enteros):",false);
+    }
+    
     for(int i = 0;i<tamanio;i++){
         int Clave = 0;
         Clave=leerEntero("ingrese la clave a apilar para la pila: ",false);
