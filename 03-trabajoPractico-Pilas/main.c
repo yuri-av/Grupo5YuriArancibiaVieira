@@ -47,6 +47,7 @@ int main(){
             {
             case 'A':{
                 /*EJERCICIO 2*/
+                printf("PRIMERO CARGAR PILA LUEGO ELEGIR PUNTO A EJECUTAR!!\n");
                 Pila p = p_crear();
                 cargarPila(p);
                 printf("Pila armada con valores de usuario : ");
@@ -80,6 +81,7 @@ int main(){
                             int clave;
                             bool ret;
 
+                            printf("===EJERCICIO 2 PUNTO A===\n");
                             printf("Pila armada con valores de usuario : ");
                             p_mostrar(p);
                             clave = leerEntero("Ingrese la clave que desea Buscar:",true);
@@ -95,25 +97,69 @@ int main(){
                         }
                         case 'B':{
                             /* PUNTO B*/
+                            printf("===EJERCICIO 2 PUNTO B===\n");
+                            int clave, elemento;
+                            printf("ingrese el elemento(entero) que quiere colocar:");
+                            elemento=validacion_ingreso();
+                            TipoElemento tipe=te_crear(elemento);
+
+                            clave=leerEntero("ingrese la posicion donde desea colocar este elemento:",false);
+                            p=p_ej2_colocarelemento(p,clave,tipe);
+
+                            printf("Pila actualizada: \n");
+                            p_mostrar(p);
                             break;
                         }
                         case ' C':{
                             /* PUNTO C*/
+                            printf("===EJERCICIO 2 PUNTO C===\n");
+                            int clave;
+                            clave=leerEntero("Ingrese la clave que desea eliminar:",false);
+                            p=p_ej2_eliminarclave(p,clave);
+
+                            printf("Pila actualizada: \n");
+                            p_mostrar(p);
+
                             break;
                         }
                         case 'D':{
                             /* PUNTO D*/
+                            printf("===EJERCICIO 2 PUNTO D===\n");
+                            int claveUno, claveDos;
+
+                            claveUno=leerEntero("ingrese la primer clave:",false);
+                            claveDos=leerEntero("coloque por cual quiere cambiarla:",false);
+
+                            p=p_ej2_intercambiarposiciones(p,claveUno,claveDos);
+
+                            printf("Pila actualizada: \n");
+                            p_mostrar(p);
+
                             break;
                         }
                         case 'E':{
                             /* PUNTO E*/
+                            printf("===EJERCICIO 2 PUNTO E===\n");
+
+                            printf("\nDuplicando pila...\n");
+                            Pila copia = p_ej2_duplicar(p);
+
+                            printf("Pila original:\n");
+                            p_mostrar(p);
+
+                            printf("Pila copia:\n");
+                            p_mostrar(copia);
+
                             break;
                         }
                         case 'F':{
                             /* PUNTO F*/
+                            printf("===EJERCICIO 2 PUNTO F===\n");
+
+                            int cant =p_ej2_cantidadelementos(p);
+                            printf("\nCantidad de elementos de la pila: %d\n", cant);
                             break;
                         }
-                        
                         default:
                             break;
                         }
@@ -125,24 +171,43 @@ int main(){
             }
             case 'B':{
                 /*EJERCICIO 3*/
-                Pila p = p_crear();
-                cargarPila(p);
-                printf("Pila armada con valores de usuario : ");
-                p_mostrar(p);
+                Pila p1 = p_crear();
+                cargarPila(p1);
 
+                Pila p2 = p_crear();
+                cargarPila(p2);
 
+                printf("Pila numero uno: ");
+                p_mostrar(p1);
+                printf("Pila numero dos: ");
+                p_mostrar(p2);
 
+                if (p_ej3_iguales(p1, p2)) {
+                    printf("\nLas pilas son iguales\n");
+                } else {
+                    printf("\nLas pilas NO son iguales\n");
+                }
+
+                printf("Este ejercicio tiene una complejidad Algoritmica de O(n) donde n representa la cantidad de elementos de la pila");
                 break;
             }
             case 'C':{
                 /*EJERCICIO 4*/
-                Pila p = p_crear();
-                cargarPila(p);
-                printf("Pila armada con valores de usuario : ");
-                p_mostrar(p);
+                int nrobasedecimal, nrootrabase;
+                char *res;
 
+                nrobasedecimal=leerEntero("ingrese un numero mayor a 0 para convertirlo:",false);
 
-
+                nrootrabase=leerEntero("ingrese una base entre 2 y 16",false);
+                while (nrootrabase < 2 || nrootrabase > 16){
+                    nrootrabase=leerEntero("por favor, ingrese una base entre 2 y 16",false);               
+                }
+                res = p_ej4_cambiarbase(nrobasedecimal, nrootrabase);
+                printf("Resultado: %s\n", res);
+                printf("La cantidad de divisiones que se hacen es proporcional a la cantidad de dígitos del resultado,\n");
+                printf("que es log en la base elegida del número original. por lo que tenemos una complejidad algoritmica de O(log n)");
+                
+                free(res);
                 break;
             }
             case 'D':{
@@ -152,41 +217,71 @@ int main(){
                 printf("Pila armada con valores de usuario : ");
                 p_mostrar(p);
 
+                Pila invertida = p_ej5_invertir(p);
 
+                printf("\nPila invertida: ");
+                p_mostrar(invertida);
 
                 break;
             }
             case 'E':{
                 /*EJERCICIO 6*/
                 Pila p = p_crear();
+                Pila it = p_crear();
+                Pila rec = p_crear();
                 cargarPila(p);
                 printf("Pila armada con valores de usuario : ");
                 p_mostrar(p);
 
+                int clave;
+                clave=leerEntero("ingrese la clave que desea ELIMINAR\n",false);
 
+                printf("El metodo iterativo tiene complejidad O(n)\n");
+                it=p_ej6_eliminarclave(p,clave);
+                p_mostrar(it);
+
+                printf("El metodo Recursivo tambien tiene Complejidad O(n)\n");
+                rec=p_ej6_eliminarclaveRecu(p,clave);
+                p_mostrar(rec);
 
                 break;
             }
             case 'F':{
                 /*EJERCICIO 7*/
-                Pila p = p_crear();
-                cargarPila(p);
-                printf("Pila armada con valores de usuario : ");
-                p_mostrar(p);
+                Pila p1 = p_crear();
+                cargarPila(p1);
+                Pila p2 = p_crear();
+                cargarPila(p2);
+                Pila rec=p_crear();
 
+                printf("Pila uno: ");
+                p_mostrar(p1);
+                printf("Pila dos: ");
+                p_mostrar(p2);
 
-
+                rec=p_ej7_elementoscomunes(p1,p2);
+                if(p_es_vacia(rec)){
+                    printf("no hubo concidencias.");
+                }
+                else{
+                    printf("las coincidencias fueron:");
+                    p_mostrar(rec);
+                    printf("Complejidad: O(n^2), Recorre con un bucle O(n) y dentro de este p_buscar Ejecuta otro: O(n) * O(n) = O(n^2)");
+                }
                 break;
             }
             case 'G':{
                 /*EJERCICIO 8*/
                 Pila p = p_crear();
+                Pila rec=p_crear();
                 cargarPila(p);
                 printf("Pila armada con valores de usuario : ");
                 p_mostrar(p);
 
-
-
+                rec=p_ej8_sacarrepetidos(p);
+                printf("Pila sin valores repetidos  : ");
+                p_mostrar(rec);
+                
                 break;
             }
             default:
