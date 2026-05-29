@@ -2,12 +2,12 @@
 #define TP_COLAS_H
 
 #include <stdbool.h>
-#include "../libs/colas/colas.h"
-#include "../libs/pilas/pilas.h"
-#include "../libs/listas/listas.h"
+#include "../libs/colas/headers/colas.h"
+#include "../libs/pilas/headers/pilas.h"
+#include "../libs/listas/headers/listas.h"
 
 /**
-    2.	Resolver los siguientes puntos:
+	2.	Resolver los siguientes puntos:
  */
 
 //  a.	Informar si un elemento dado se encuentra en la cola.
@@ -47,7 +47,7 @@ bool c_ej3_iguales(Cola c1, Cola c2);
 	sin destruir el contenido de la cola original y dejándola en su estado inicial.
  */
 // Retorna la cola con las claves que no tienen repeticiones, caso contrario si todas se repiten retorna cola vacia.
-Cola  c_ej4_colanorepetidos(Cola c);
+Cola c_ej4_colanorepetidos(Cola c);
 
 /**
 5.	Dada una cola de valores enteros no repetidos y mayores o iguales a 2,
@@ -59,7 +59,6 @@ Cola  c_ej4_colanorepetidos(Cola c);
 // En la variable de referencia "&fuetotal" debe venir solo con true cual el divisor es total, caso contrario false.
 int c_ej5_divisortotal(Cola c, bool *fuetotal);
 
-
 /**
 6.	Dada una pila y una cola generada con valores al azar retornar en una lista todos los valores comunes a ambas
 	y en qué posición ordinal se encontró cada uno en su estructura.  Si existe mas de una vez la primer posicion encontrada.
@@ -68,7 +67,6 @@ int c_ej5_divisortotal(Cola c, bool *fuetotal);
 // retornar una lista con los valores comunes segun las especificaciones del ejercicio.
 // Si no existen valores comunes retornar la lista vacia.
 Lista c_ej6_comunesapilaycola(Pila p, Cola c);
-
 
 /**
 7.	Un negocio tiene 3 ventanillas para atender a sus clientes. Los clientes forman cola en cada ventanilla.
