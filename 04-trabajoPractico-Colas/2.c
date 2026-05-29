@@ -1,6 +1,7 @@
 #include "colas.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "../libs/validaciones/headers/validaciones.h"
 
 /*2. Resolver los siguientes puntos:
 a. Informar si un elemento dado se encuentra en la cola.
@@ -12,6 +13,8 @@ f. Invertir el contenido de una cola sin destruir la cola original*/
 
 bool c_ej2_existeclave(Cola c, int clave);
 Cola llenar(int cantidad);
+char validacionDeLetra(char mensaje[], char opcionStr[], int tamOpcion, char inicio, char fin);
+Cola c_ej2_colarelemento(Cola c, int posicionordinal);
 
 /*static const int TAMANIO_MAXIMO = 10;
 
@@ -36,8 +39,20 @@ TipoElemento c_recuperar(Cola cola);
 
 int main()
 {
-    bool encontrado;
-    Cola cola_original = c_crear();
+    bool clave_encontrada;
+    Cola cola_original;
+    int cantidad, clave;
+    // Cantidad permitida por la estructura
+    printf("Ingrese la cantidad de elementos de la cola: ");
+    cantidad = validacion_ingreso();
+    // Completamos los elementos
+    cola_original = llenar(cantidad);
+    // El usuario decide que clave buscar
+    printf("¿Que clave quiere buscar?: ");
+    clave = validacion_ingreso();
+    // Buscamos la clave y determinamos el resultado
+    clave_encontrada = c_ej2_existeclave(cola_original, clave);
+    printf("Resultado: %d", clave_encontrada);
 
     return 0;
 }
@@ -45,35 +60,16 @@ int main()
 Cola llenar(int cantidad)
 {
     Cola cola = c_crear();
-    int opcion;
-
-    printf("A continuacion debera elegir que tipo de dato se ingresara...\n");
-    printf("Seleccione: \n");
-    do
+    int n;
+    while (cantidad > 0)
     {
-        // Opciones
-        printf("1: INT\n");
-        printf("2: CHAR\n");
-        printf("3: BOOL\n");
-        printf("4: FLOAT\n");
-        printf("0: PARA SALIR\n");
-        // En caso de no elegir una opcion valida
-        while (opcion < 0 || opcion > 4)
-        {
-            /* code */
-        }
-
-        // Instrucciones pertinentes a la opcion
-        switch (opcion)
-        {
-        case 1:
-            /* code */
-            break;
-
-        default:
-            break;
-        }
-    } while (opcion != 0);
+        printf("Ingrese un valor: ");
+        n = validacion_ingreso();
+        TipoElemento te = te_crear(n);
+        c_encolar(cola, n);
+        cantidad--;
+    }
+    return cola;
 }
 
 bool c_ej2_existeclave(Cola c, int clave)
@@ -84,18 +80,56 @@ bool c_ej2_existeclave(Cola c, int clave)
     while (!c_es_vacia(c))
     {
         TipoElemento elemento_salida = c_desencolar(c);
+
         if (elemento_salida->clave == clave)
         {
             encontrado = true;
         }
-        TipoElemento elemento_aux = te_crear(elemento_salida);
-        c_encolar(c_aux, elemento_aux);
+        c_encolar(c_aux, elemento_salida);
     }
+
     while (!c_es_vacia(c_aux))
     {
         TipoElemento elemento_salida = c_desencolar(c_aux);
-        TipoElemento elemento_aux = te_crear(elemento_salida);
-        c_encolar(c_aux, elemento_aux);
+        c_encolar(c_aux, elemento_salida);
     }
+
     return encontrado;
+}
+
+Cola c_ej2_colarelemento(Cola c, int posicionordinal)
+{
+    Cola aux = c_crear();
+    int valor_nuevo;
+
+    printf("Ingrese el valor a ingresar: ");
+    valor_nuevo = validacion_ingreso();
+    TipoElemento nuevo = te_crear(valor_nuevo);
+
+    while (!c_es_vacia(c))
+    {
+        c_encolar(aux, c_desencolar(c));
+    }
+    int contador = 1;
+
+    while (!c_es_vacia(aux))
+    {
+        if (contador == posicionordinal)
+        {
+            c_encolar(c, nuevo);
+            posicionordinal = -1; // Desactiva la condicion para que no vuelva a entrar
+        }
+        TipoElemento te_aux = c_desencolar(aux);
+        c_encolar(c, te_aux);
+        contador++;
+    }
+
+    if (posicionordinal != -1)
+    {
+        // Entrara en este bloque si la posicion en la que quiere ingresar el valor nuevo ->
+        // -> no es parte de la cola
+        c_encolar(c, nuevo);
+    }
+
+    return c;
 }
