@@ -247,12 +247,12 @@ int main(){
 
                 printf("El metodo iterativo tiene complejidad O(n)\n");
                 it=p_ej6_eliminarclave(p,clave);
-                printf("Pila actualizada:");
+                printf("Pila actualizada con el metodo iterativo:");
                 p_mostrar(it);
 
                 printf("El metodo Recursivo tambien tiene Complejidad O(n)\n");
                 rec=p_ej6_eliminarclaveRecu(p,clave);
-                printf("Pila actualizada:");
+                printf("Pila actualizada con el metodo recursivo:");
                 p_mostrar(rec);
 
                 printf("\nPresione Enter para continuar...");
