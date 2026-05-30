@@ -1,11 +1,8 @@
-#include "colas.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "../libs/colas/headers/colas.h"
 #include "../libs/validaciones/headers/validaciones.h"
 #include "../libs/Pilas/headers/pilas.h"
-
-/*2. Resolver los siguientes puntos:
-f. Invertir el contenido de una cola sin destruir la cola original*/
 
 Cola llenar(int cantidad);
 int validacion_ingreso();
@@ -16,27 +13,104 @@ Cola c_ej2_sacarelemento(Cola c, int clave);
 int c_ej2_contarelementos(Cola c);
 Cola c_ej2_copiar(Cola c);
 Cola c_ej2_invertir(Cola c);
-
 int main()
 {
+    // Variables para el control del menú
+    char opcionMenu;
+    int tamanoBuffer = 10;
+    char bufferLectura[tamanoBuffer];
+
+    // Variables de las colas y datos
     bool clave_encontrada;
-    Cola cola_original;
-    int cantidad, clave_buscar, posicionordinal, clave_eliminacion;
-    // Cantidad permitida por la estructura
+    Cola cola_original = NULL; // Inicializamos en NULL para saber si ya fue creada
+    Cola c_copia, c_invertida;
+    int cantidad, clave_buscar, posicionordinal, clave_eliminacion, elementos_totales;
+
+    // Primero pedimos la cantidad y cargamos la cola inicial por única vez
+    printf("=== CONFIGURACION INICIAL ===\n");
     printf("Ingrese la cantidad de elementos de la cola: ");
     cantidad = validacion_ingreso();
-    // Completamos los elementos
     cola_original = llenar(cantidad);
-    // El usuario decide que clave buscar
-    printf("¿Que clave quiere buscar?: ");
-    clave_buscar = validacion_ingreso();
-    // Buscamos la clave y determinamos el resultado
-    clave_encontrada = c_ej2_existeclave(cola_original, clave_buscar);
-    printf("Resultado: %d", clave_encontrada);
-    // Ingresar elemento en una posicion
-    printf("Ingrese una posicion para encontar elemento: ");
-    posicionordinal = validacion_ingreso();
-    cola_original = c_ej2_colarelemento(cola_original, posicionordinal);
+    printf("¡Cola inicial cargada con exito!\n\n");
+
+    do
+    {
+        // Mostramos el menú con las operaciones disponibles
+        printf("--- MENU DE OPERACIONES (EJERCICIO 2) ---\n");
+        printf("A: Buscar si un elemento existe\n");
+        printf("B: Agregar elemento en una posicion\n");
+        printf("C: Sacar un elemento todas las veces que aparezca\n");
+        printf("D: Contar los elementos de la cola\n");
+        printf("E: Realizar una copia de la cola\n");
+        printf("F: Invertir el contenido de la cola\n");
+        printf("G: SALIR DEL PROGRAMA\n");
+        printf("-----------------------------------------\n");
+
+        // Validamos que ingrese una opción entre A y G
+        opcionMenu = validacionDeLetra("Seleccione una operacion: ", bufferLectura, tamanoBuffer, 'A', 'G');
+        printf("\n");
+
+        switch (opcionMenu)
+        {
+        case 'A':
+            printf("¿Que clave quiere buscar?: ");
+            clave_buscar = validacion_ingreso();
+            clave_encontrada = c_ej2_existeclave(cola_original, clave_buscar);
+            if (clave_encontrada)
+            {
+                printf(">> Resultado: La clave %d SI se encuentra en la cola.\n", clave_buscar);
+            }
+            else
+            {
+                printf(">> Resultado: La clave %d NO se encuentra en la cola.\n", clave_buscar);
+            }
+            break;
+
+        case 'B':
+            printf("Ingrese la posicion ordinal para colarse: ");
+            posicionordinal = validacion_ingreso();
+            // La misma función c_ej2_colarelemento se encarga de pedir el valor adentro
+            cola_original = c_ej2_colarelemento(cola_original, posicionordinal);
+            printf(">> Operacion realizada. Estado actual de la cola:\n");
+            c_mostrar(cola_original);
+            break;
+
+        case 'C':
+            printf("Ingrese clave a eliminar (se eliminaran todas sus apariciones): ");
+            clave_eliminacion = validacion_ingreso();
+            cola_original = c_ej2_sacarelemento(cola_original, clave_eliminacion);
+            printf(">> Elementos eliminados. Estado actual de la cola:\n");
+            c_mostrar(cola_original);
+            break;
+
+        case 'D':
+            printf("Iniciando conteo de elementos...\n");
+            elementos_totales = c_ej2_contarelementos(cola_original);
+            printf(">> Elementos totales encontrados: %i\n", elementos_totales);
+            break;
+
+        case 'E':
+            printf("Realizando copia de la cola original...\n");
+            c_copia = c_ej2_copiar(cola_original);
+            printf(">> ¡Copia hecha! Contenido de la nueva cola copia:\n");
+            c_mostrar(c_copia);
+            break;
+
+        case 'F':
+            printf("Invirtiendo el contenido de la cola original...\n");
+            c_invertida = c_ej2_invertir(cola_original);
+            printf(">> ¡Inversion completada! Contenido de la cola invertida:\n");
+            c_mostrar(c_invertida);
+            break;
+
+        case 'G':
+            printf("Saliendo del programa. ¡Exitos en la cursada!\n");
+            break;
+        }
+
+        printf("\n"); // Espaciado entre iteraciones
+
+    } while (opcionMenu != 'G');
 
     return 0;
 }
