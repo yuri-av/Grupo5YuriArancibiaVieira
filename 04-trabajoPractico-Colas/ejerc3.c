@@ -39,13 +39,6 @@ bool c_ej3_iguales(Cola c1, Cola c2) {
     return iguales;
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "colas.h"   // o el nombre que uses
-#include "tipo_elemento.h"
-
-bool c_ej3_iguales(Cola c1, Cola c2); // tu función
-
 int main() {
     Cola c1 = c_crear();
     Cola c2 = c_crear();
