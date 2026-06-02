@@ -4,9 +4,8 @@
 #include <string.h>
 
 #include "tp_pilas.h"
-#include "validaciones.h"
-#include "tipo_elemento.h"
-
+#include "../libs/validaciones/headers/validaciones.h"
+#include "../libs/tipoElemento/headers/tipo_elemento.h"
 #define MAX 150
 
 //Dada una pila Auxiliar y una pila a armar , se arma la segunda pila siendo la inversa de la auxiliar

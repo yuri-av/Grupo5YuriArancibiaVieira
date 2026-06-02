@@ -3,8 +3,8 @@
 #include <stdbool.h>
 
 #include "tp_pilas.h"
-#include "pilas.h"
-#include "tipo_elemento.h"
+#include "../libs/pilas/headers/pilas.h"
+#include "../libs/tipoElemento/headers/tipo_elemento.h"
 Pila ReApilar(Pila PilaAuxuliar,Pila Armar);
 // EJERCICIO 2
 /*a. Buscar una clave y determinar si existe en la Pila (sin perder la pila).*/

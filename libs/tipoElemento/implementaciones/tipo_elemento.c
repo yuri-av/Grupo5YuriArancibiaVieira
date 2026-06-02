@@ -1,4 +1,4 @@
-#include "tipo_elemento.h"
+#include "../headers/tipo_elemento.h"
 #include <stdlib.h>
 
 TipoElemento te_crear(int clave) {

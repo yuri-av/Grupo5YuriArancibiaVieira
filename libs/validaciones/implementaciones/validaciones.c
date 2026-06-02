@@ -1,4 +1,4 @@
-#include "validaciones.h"
+#include "../headers/validaciones.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

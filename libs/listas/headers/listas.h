@@ -2,7 +2,7 @@
 #define LISTAS_H
 
 #include <stdbool.h>
-#include "tipo_elemento.h"
+#include "../tipoElemento/headers/tipo_elemento.h"
 
 //static const int TAMANIO_MAXIMO = 100;
 #define TAMANIO_MAXIMO 100
