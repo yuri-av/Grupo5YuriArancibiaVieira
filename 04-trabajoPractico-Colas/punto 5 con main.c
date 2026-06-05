@@ -6,7 +6,7 @@
 #include "colas.h"
 #include "tipo_elemento.h"
 
-
+// Complejidad Algoritmica: O(n**2)
 int contador(Cola c);
 int cant_divisiones(Cola c, TipoElemento sig);
 
