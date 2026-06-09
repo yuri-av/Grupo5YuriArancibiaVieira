@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "tp_colas.h"
+#include "tp_4_colas.h"
 #include "colas.h"
 #include "tipo_elemento.h"
 
