@@ -4,25 +4,28 @@
 
 #include "../headers/pilas.h"
 
-struct Nodo {
+struct Nodo
+{
     TipoElemento datos;
     struct Nodo *siguiente;
 };
 
-struct PilaRep {
+struct PilaRep
+{
     struct Nodo *tope;
 };
 
-
-Pila p_crear() {
-    Pila nueva_pila = (Pila) malloc(sizeof(struct PilaRep));
+Pila p_crear()
+{
+    Pila nueva_pila = (Pila)malloc(sizeof(struct PilaRep));
     nueva_pila->tope = NULL;
     return nueva_pila;
 }
 
-
-bool p_apilar(Pila pila, TipoElemento elemento) {
-    if (p_es_llena(pila)) {
+bool p_apilar(Pila pila, TipoElemento elemento)
+{
+    if (p_es_llena(pila))
+    {
         return false;
     }
     struct Nodo *nuevo_nodo = malloc(sizeof(struct Nodo));
@@ -32,9 +35,10 @@ bool p_apilar(Pila pila, TipoElemento elemento) {
     return true;
 }
 
-
-TipoElemento p_desapilar(Pila pila) {
-    if (p_es_vacia(pila)) {
+TipoElemento p_desapilar(Pila pila)
+{
+    if (p_es_vacia(pila))
+    {
         return NULL;
     }
     struct Nodo *tope_actual = pila->tope;
@@ -45,42 +49,45 @@ TipoElemento p_desapilar(Pila pila) {
     return elemento;
 }
 
-
-TipoElemento p_tope(Pila pila) {
-    if (p_es_vacia(pila)) {
+TipoElemento p_tope(Pila pila)
+{
+    if (p_es_vacia(pila))
+    {
         return NULL;
     }
     struct Nodo *tope_actual = pila->tope;
     return tope_actual->datos;
 }
 
-
-bool p_es_vacia(Pila pila) {
+bool p_es_vacia(Pila pila)
+{
     return pila->tope == NULL;
 }
-
 
 //-----------------------------------------------------------
 // Rutina interna que calcula los elementos de la pila
 //-----------------------------------------------------------
-int p_longitud(Pila pila) {
+int p_longitud(Pila pila)
+{
     int i = 0;
     struct Nodo *N = pila->tope;
-    while (N != NULL) {
+    while (N != NULL)
+    {
         i++;
         N = N->siguiente;
     }
     return i;
 }
 
-
-bool p_es_llena(Pila pila) {
-    return (p_longitud(pila) == TAMANIO_MAXIMO);
+bool p_es_llena(Pila pila)
+{
+    return (p_longitud(pila) == TAMANIO_MAXIMO_PILAS);
 }
 
-
-void p_mostrar(Pila pila) {
-    if (p_es_vacia(pila)) {
+void p_mostrar(Pila pila)
+{
+    if (p_es_vacia(pila))
+    {
         printf("PILA VACIA !!! \n");
         return;
     }
@@ -91,14 +98,16 @@ void p_mostrar(Pila pila) {
     printf("Contenido de la pila: ");
 
     // Recorro la pila desapilandola y pasandola al auxiliar
-    while (p_es_vacia(pila) != true) {
+    while (p_es_vacia(pila) != true)
+    {
         X = p_desapilar(pila);
         printf("%d ", X->clave);
         p_apilar(Paux, X);
     }
 
     // Recorro la pila auxiliar para pasarla a la original
-    while (p_es_vacia(Paux) != true) {
+    while (p_es_vacia(Paux) != true)
+    {
         X = p_desapilar(Paux);
         p_apilar(pila, X);
     }
