@@ -12,7 +12,7 @@
 Conjunto c_ej2_union(Conjunto A, Conjunto B);
 Conjunto c_ej2_interseccion(Conjunto A, Conjunto B);
 Conjunto c_ej2_diferencia(Conjunto A, Conjunto B);
-
+bool c_ej2_pertenece(Conjunto conjunto, int clave);
 
 /**
 3.	Desarrollar un algoritmo que dada una colección de conjuntos de elementos tipo numérico (clave) 
@@ -58,3 +58,4 @@ void c_ej7_subconjtotalparcial(Conjunto A, Conjunto B, Conjunto C);
 bool c_ej8_soniguales(Conjunto A, Conjunto B);
 
 #endif // TP_CONJUNTOS_H
+
