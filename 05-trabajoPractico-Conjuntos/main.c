@@ -188,51 +188,69 @@ void Menu(){
             cto_mostrar(DiferenciaSime);
             break;
         }
-        case 5:{
-            bool ConjuntoPropio =c_ej6_subconjuntopropio(c1,c2);
-            printf("c1 es conjunto propio de c2?? ");
-            if (ConjuntoPropio)
-            {
-                printf("Si, lo es");
-            }else{
-                printf("No lo es..");
-            }  
-            break;
-        }
+       case 5:{
+    bool ConjuntoPropio = c_ej6_subconjuntopropio(c1,c2);
+    printf("c1 es conjunto propio de c2?? ");
+    if (ConjuntoPropio)
+    {
+        printf("Si, lo es");
+    }else{
+        printf("No lo es..");
+    }
+
+    printf("\n\nComplejidad algoritmica: O(n^2)\n");
+    printf("Justificacion: Se recorre el conjunto A una vez y para cada elemento ");
+    printf("se realiza una busqueda lineal en el conjunto B mediante cto_pertenece(). ");
+    printf("Por ello la complejidad total es O(n^2).\n");
+
+    break;
+}
         case 6:{
-            int CantidadElementos;
-            Conjunto c3 = cto_crear();
+    int CantidadElementos;
+    Conjunto c3 = cto_crear();
 
-            EnteroPositivo(&CantidadElementos,"Ingrese la cantidad de elementos para c3");
-            printf("cargue para c3\n");
-            c3=CargarConjuntoEntero(CantidadElementos);
+    EnteroPositivo(&CantidadElementos,"Ingrese la cantidad de elementos para c3");
+    printf("cargue para c3\n");
+    c3=CargarConjuntoEntero(CantidadElementos);
 
-            Cartelito("c1:","------------");
-            cto_mostrar(c1);
-    
-            Cartelito("c2:","------------");
-            cto_mostrar(c2);
-    
-            Cartelito("c3:","------------");
-            cto_mostrar(c3);
-            
-            printf("c1 es subconjunto de c3? \n\n");
+    Cartelito("c1:","------------");
+    cto_mostrar(c1);
 
-            c_ej7_subconjtotalparcial(c1,c2,c3);
-            printf("\n\n");
-            break;
-        }
-        case 7:{
-            printf("Los dos Conjuntos son iguales?? ");
-            if (c_ej8_soniguales(c1,c2))
-            {
-                printf("Si, son iguales");
-            }else{
-                printf("No, no son iguales");
-            }
-            break;
-            
-        }
+    Cartelito("c2:","------------");
+    cto_mostrar(c2);
+
+    Cartelito("c3:","------------");
+    cto_mostrar(c3);
+
+    printf("c1 es subconjunto de c3? \n\n");
+
+    c_ej7_subconjtotalparcial(c1,c2,c3);
+
+    printf("\n\nComplejidad algoritmica: O(n^2)\n");
+    printf("Justificacion: Cada comparacion recorre un conjunto completo y, para cada ");
+    printf("elemento, realiza una busqueda lineal en el otro conjunto. ");
+    printf("Aunque se comparan varios pares de conjuntos, esa cantidad es constante, ");
+    printf("por lo que la complejidad sigue siendo O(n^2).\n\n");
+
+    break;
+}
+       case 7:{
+    printf("Los dos Conjuntos son iguales?? ");
+    if (c_ej8_soniguales(c1,c2))
+    {
+        printf("Si, son iguales");
+    }else{
+        printf("No, no son iguales");
+    }
+
+    printf("\n\nComplejidad algoritmica: O(n^2)\n");
+    printf("Justificacion: Primero se compara la cantidad de elementos (O(1)). ");
+    printf("Luego se recorren todos los elementos de A y para cada uno se realiza ");
+    printf("una busqueda lineal en B mediante cto_pertenece(). ");
+    printf("La complejidad resultante es O(n^2).\n");
+
+    break;
+}
         
     }
     
