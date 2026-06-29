@@ -222,8 +222,6 @@ void Menu(){
     Cartelito("c3:","------------");
     cto_mostrar(c3);
 
-    printf("c1 es subconjunto de c3? \n\n");
-
     c_ej7_subconjtotalparcial(c1,c2,c3);
 
     printf("\n\nComplejidad algoritmica: O(n^2)\n");
