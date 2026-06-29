@@ -59,13 +59,11 @@ void EnteroPositivo(int *buffer, char Msg[]){
 }
 
 void Menu(){
-    
-    printf("\n");
+
     int Opcion = -1;
     do{
-    printf("\n");
+    printf("\n\n\n");
     ImprimirAsciiMenu();
-    printf("\n");
     printf("\n\n");
 
     printf("| 1 - Ejercicio 2: |\n");
@@ -137,7 +135,19 @@ void Menu(){
             Conjunto Diferencia = cto_crear();
             Diferencia = c_ej2_diferencia(c1,c2);
             cto_mostrar(Diferencia);
-        
+
+            int clave = 0;
+            ValidacionEntero(&clave,"Por favor ingrese la clave para saber si Pertenece al Conjunto 1 (c1) \n");
+
+            printf("---------- La clave %d Pertenece Al conjunto c1 ? ----------  ",clave);
+            if (c_ej2_pertenece(c1,clave))
+            {
+                printf("Si, la clave pertenece");
+            }
+            else{
+                printf("No, la clave no pertenece");
+            }
+            
         break;
         }
 
