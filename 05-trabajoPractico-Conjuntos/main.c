@@ -94,7 +94,7 @@ void Menu(){
     Conjunto c1 = cto_crear();
     Conjunto c2 = cto_crear();
 
-    if(Opcion == 1 || Opcion == 3 || Opcion == 5 || Opcion == 6|| Opcion == 7){
+    if(Opcion == 1 || Opcion == 3 || Opcion == 4||Opcion == 5 || Opcion == 6|| Opcion == 7){
 
         int CantidadElementos = 0;
         EnteroPositivo(&CantidadElementos,"Ingrese la cantidad de elementos para c1 (Conjunto 1)");
