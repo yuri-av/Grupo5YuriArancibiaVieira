@@ -2,7 +2,7 @@
 #define CONJUNTOS_H
 
 #include <stdbool.h>
-#include "tipo_elemento.h"
+#include "../../tipoElemento/headers/tipo_elemento.h"
 
 struct ConjuntoRep;
 typedef struct ConjuntoRep *Conjunto;
