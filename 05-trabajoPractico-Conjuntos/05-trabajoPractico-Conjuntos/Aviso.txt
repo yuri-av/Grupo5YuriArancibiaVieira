@@ -1,7 +1,0 @@
-Hola buenas noches profesores, solo queríamos aclarar como lo compilamos
-
-desde la carpeta principal utilizamos este comando:
-
-gcc "05-trabajoPractico-Conjuntos/main.c" "05-trabajoPractico-Conjuntos/tp_conjunto.c" "libs/conjuntos/implementaciones/conjuntos_listas.c" "libs/listas/implementaciones/listas_arreglos.c"  "libs/tipoElemento/implementaciones/tipo_elemento.c" "libs/validaciones/implementaciones/validaciones.c" -I "libs/conjuntos/headers"  -I "libs/listas/headers" -I "libs/tipoElemento/headers" -I "libs/validaciones/header" -o "Consulta.exe"
-
-Grupo 5.
